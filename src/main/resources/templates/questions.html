@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Schnitzeljagd</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
+    <script type="text/javascript" th:src="@{../static/scripts/questionScript.js}"></script>
+</head>
+<body>
+<h1 id="question_number">Aufgabe [[${number}]]</h1>
+
+
+<p>[[${question}]]</p>
+<form>
+    <label for="antwort">Antwort:</label>
+    <input type="text" id="antwort" name="antwort" required>
+    <button type="submit">Antwort senden</button>
+    <br>
+    <button type="button" onclick=getHint()> Tipp anfordern</button>
+    <label id="hint_label">Tipp...</label>
+</form>
+</body>
+</html>

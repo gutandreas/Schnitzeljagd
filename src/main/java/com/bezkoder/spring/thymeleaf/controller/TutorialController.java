@@ -3,13 +3,18 @@ package com.bezkoder.spring.thymeleaf.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bezkoder.spring.thymeleaf.Question;
+import com.bezkoder.spring.thymeleaf.QuestionList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bezkoder.spring.thymeleaf.entity.Tutorial;
@@ -109,5 +114,20 @@ public class TutorialController {
     }
 
     return "redirect:/tutorials";
+  }
+
+  // localhost:8080/qr?encryptedkey=XF98EG
+  @GetMapping("/qr")
+  public String loadQuestion(Model model, @RequestParam @NonNull String encryptedkey ){
+
+    Question question = QuestionList.getQuestionByEncryptedKey(encryptedkey);
+    model.addAttribute("number", QuestionList.getQuestionNumberByEncryptedKey(encryptedkey));
+    model.addAttribute("question", question.getQuestion());
+    return "questions";
+  }
+
+  @GetMapping("/hint")
+  public String getHint(@RequestParam @NonNull String key){
+    return QuestionList.getQuestionHintByKey(key);
   }
 }

@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.bezkoder</groupId>
-	<artifactId>spring-boot-thymeleaf-example</artifactId>
+	<artifactId>schnitzeljagd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-thymeleaf-example</name>
 	<description>Spring Boot Thymeleaf example - CRUD with Bootstrap</description>
