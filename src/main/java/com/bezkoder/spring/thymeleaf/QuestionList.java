@@ -26,7 +26,7 @@ public class QuestionList {
         return encryptionMap.get(encryptedKey);
     }
 
-    public static String getQuestionHintByKey(String key){
-        return questionMap.get(key).getHint();
+    public static String getQuestionHintByKey(int number){
+        return questionMap.get(number).getHint();
     }
 }
