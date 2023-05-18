@@ -6,6 +6,8 @@ import java.util.List;
 import com.bezkoder.spring.thymeleaf.Question;
 import com.bezkoder.spring.thymeleaf.QuestionList;
 
+import com.bezkoder.spring.thymeleaf.entity.User;
+import com.bezkoder.spring.thymeleaf.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
@@ -19,10 +21,13 @@ import com.bezkoder.spring.thymeleaf.repository.TutorialRepository;
 
 
 @Controller
-public class TutorialController {
+public class QuestionController {
 
   @Autowired
   private TutorialRepository tutorialRepository;
+
+  @Autowired
+  private UserRepository userRepository;
 
   @GetMapping("/tutorials")
   public String getAll(Model model, @Param("keyword") String keyword) {
@@ -154,6 +159,13 @@ public class TutorialController {
     return "Die Antwort ist nicht korrekt...";
 
 
+  }
+
+  @GetMapping("/tutorials/start")
+  public String start(Model model) {
+    User user = new User();
+
+    return "";
   }
 
 
