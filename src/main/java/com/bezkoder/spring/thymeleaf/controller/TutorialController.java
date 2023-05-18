@@ -136,12 +136,6 @@ public class TutorialController {
     return QuestionList.getQuestionHintByKey(number);
   }
 
-  @GetMapping("/replaceFragment")
-  public String replaceFragment(Model model) {
-    // m
-    // ...
-    return "fragment :: fragmentToReplace"; // Hier geben Sie den Namen des Thymeleaf-Templates an und den Namen des zu ersetzenden Fragments (ID oder CSS-Klasse)
-  }
 
 
 
