@@ -10,15 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bezkoder.spring.thymeleaf.entity.Tutorial;
 import com.bezkoder.spring.thymeleaf.repository.TutorialRepository;
-import org.thymeleaf.TemplateEngine;
 
 
 @Controller
@@ -133,7 +130,29 @@ public class TutorialController {
   @ResponseBody
   public String getHint(Model model, @RequestParam @NonNull int number){
     System.out.println("Hint zu Aufgabe " + number + " abgefragt.");
-    return QuestionList.getQuestionHintByKey(number);
+    return QuestionList.getHintByQuestionNumber(number);
+  }
+
+  @GetMapping("/check")
+  @ResponseBody
+  public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer ) {
+
+    boolean answerCorrect = false;
+    Question question = QuestionList.getQuestionByNumber(number);
+
+    for (String s : question.getCorrectAnswers()) {
+      if (s.toLowerCase().equals(answer.toLowerCase())) {
+        answerCorrect = true;
+        System.out.println("Aufgabe " + number + " wurde richtig beantwortet.");
+        return "Die Antwort ist richtig! Den nächsten Posten findest du hier: " + question.getNextStep();
+      }
+    }
+
+    return "Die Antwort ist nicht korrekt...";
+
+
+    //model.addAttribute("number", QuestionList.getQuestionNumberByEncryptedKey(sol));
+
   }
 
 

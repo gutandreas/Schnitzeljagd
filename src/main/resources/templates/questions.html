@@ -17,10 +17,11 @@
 <form>
     <label for="antwort">Antwort:</label>
     <input type="text" id="antwort" name="antwort" required>
-    <button type="submit">Antwort senden</button>
+    <button type="button" onclick="sendAnswer()">Antwort senden</button>
     <br>
     <button type="button" onclick="getHint()"> Tipp anfordern</button>
-    <label id="hint_label">Tipp...</label>
 </form>
+<div id="hint_label">Tipp...</div>
+<div id="answer_correct"></div>
 </body>
 </html>

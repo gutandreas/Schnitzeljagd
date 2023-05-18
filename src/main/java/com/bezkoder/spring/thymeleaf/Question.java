@@ -30,4 +30,7 @@ public class Question {
         return hint;
     }
 
+    public String getNextStep() {
+        return nextStep;
+    }
 }
