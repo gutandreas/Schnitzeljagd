@@ -1,7 +1,7 @@
 var ip = "http://localhost:8080"
 
 function getHint(){
-    url = ip.concat("/hint?number=1")
+    url = ip.concat("/hint?number=".concat(extractDigitsAndParseInt(document.getElementById("question_number").innerHTML)))
     fetch(url)
         .then(response => response.text())
         .then(data => {
@@ -15,17 +15,10 @@ function getHint(){
 
 
 
-function solve(){
-    url = ip.concat("/hint?number=1")
-    console.log(url)
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        console.log(xhttp.responseText)
-        console.log(this.status)
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("hint_label").innerHTML = xhttp.responseText;
-        }
-    };
-    xhttp.open("GET", url , true);
-    xhttp.send();
+function extractDigitsAndParseInt(string) {
+    var digits = string.match(/\d+/g);
+    var digitString = digits.join('');
+    var intValue = parseInt(digitString, 10);
+    return intValue;
 }
+
