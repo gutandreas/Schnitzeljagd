@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bezkoder.spring.thymeleaf.entity.Tutorial;
@@ -123,14 +124,23 @@ public class TutorialController {
     Question question = QuestionList.getQuestionByEncryptedKey(encryptedkey);
     model.addAttribute("number", QuestionList.getQuestionNumberByEncryptedKey(encryptedkey));
     model.addAttribute("question", question.getQuestion());
+    model.addAttribute("hint", "Tipp...");
     return "questions";
   }
 
 
   @GetMapping("/hint")
-  public String getHint(@RequestParam @NonNull int number){
+  @ResponseBody
+  public String getHint(Model model, @RequestParam @NonNull int number){
     System.out.println("Hint zu Aufgabe " + number + " abgefragt.");
     return QuestionList.getQuestionHintByKey(number);
+  }
+
+  @GetMapping("/replaceFragment")
+  public String replaceFragment(Model model) {
+    // m
+    // ...
+    return "fragment :: fragmentToReplace"; // Hier geben Sie den Namen des Thymeleaf-Templates an und den Namen des zu ersetzenden Fragments (ID oder CSS-Klasse)
   }
 
 
