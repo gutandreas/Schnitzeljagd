@@ -2,6 +2,7 @@ package com.bezkoder.spring.thymeleaf.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.bezkoder.spring.thymeleaf.Question;
 import com.bezkoder.spring.thymeleaf.QuestionList;
@@ -143,7 +144,7 @@ public class QuestionController {
 
   @GetMapping("/check")
   @ResponseBody
-  public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer ) {
+  public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer, @RequestParam @NonNull UUID uuid) {
 
     boolean answerCorrect = false;
     Question question = QuestionList.getQuestionByNumber(number);
