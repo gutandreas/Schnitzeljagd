@@ -31,12 +31,7 @@ label {
     margin-bottom: 10px;
 }
 
-#hint_label {
-    display: inline;
-    color: #333333;
-    font-size: 15px;
-    margin-bottom: 10px;
-}
+
 
 input[type=text] {
     padding: 10px;

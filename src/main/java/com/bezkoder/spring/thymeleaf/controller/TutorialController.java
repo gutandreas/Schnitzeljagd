@@ -115,6 +115,9 @@ public class TutorialController {
   }
 
   // localhost:8080/qr?encryptedkey=XF98EG
+  // localhost:8080/qr?encryptedkey=HJ34IK
+  // localhost:8080/qr?encryptedkey=FQ90BM
+
   @GetMapping("/qr")
   public String loadQuestion(Model model, @RequestParam @NonNull String encryptedkey ){
 
@@ -150,8 +153,6 @@ public class TutorialController {
 
     return "Die Antwort ist nicht korrekt...";
 
-
-    //model.addAttribute("number", QuestionList.getQuestionNumberByEncryptedKey(sol));
 
   }
 
