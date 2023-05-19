@@ -14,7 +14,9 @@ function getHint(){
 }
 
 function sendAnswer(){
-    url = ip.concat("/check?number=").concat(extractDigitsAndParseInt(document.getElementById("question_number").innerHTML)).concat("&answer=").concat(document.getElementById("antwort").value)
+    url = ip.concat("/check?number=").concat(extractDigitsAndParseInt(document.getElementById("question_number").innerHTML))
+        .concat("&answer=").concat(document.getElementById("antwort").value)
+        .
     console.log(url)
     fetch(url)
         .then(response => response.text())

@@ -1,9 +1,7 @@
 package com.bezkoder.spring.thymeleaf.entity;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -14,7 +12,7 @@ public class User {
   private Integer id;
 
   @Column
-  private UUID uuid;
+  private String code;
 
   @Column(length = 20, nullable = false)
   private String vorname;
@@ -47,8 +45,8 @@ public class User {
     this.id = id;
   }
 
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setCode(String code) {
+    this.code = code;
   }
 
   public void setStart(LocalDateTime start) {
@@ -81,7 +79,7 @@ public class User {
 
   @Override
   public String toString() {
-    return "Tutorial [id=" + id + ", uuid=" + uuid + ", vorname=" + vorname + ", nachname=" + nachname + ", start=" + start + ", stop=" + stop + ", fertig=" + fertig + "]";
+    return "Tutorial [id=" + id + ", uuid=" + code + ", vorname=" + vorname + ", nachname=" + nachname + ", start=" + start + ", stop=" + stop + ", fertig=" + fertig + "]";
   }
 
 }
