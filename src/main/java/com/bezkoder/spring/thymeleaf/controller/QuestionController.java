@@ -125,9 +125,8 @@ public class QuestionController {
   // localhost:8080/qr?encryptedkey=FQ90BM
 
   @GetMapping("/qr")
-  public String loadQuestion(Model model, @RequestParam @NonNull String encryptedkey, @RequestParam @NonNull String code){
+  public String loadQuestion(Model model, @RequestParam @NonNull String encryptedkey){
 
-    System.out.println(code);
     Question question = QuestionList.getQuestionByEncryptedKey(encryptedkey);
     model.addAttribute("number", QuestionList.getQuestionNumberByEncryptedKey(encryptedkey));
     model.addAttribute("question", question.getQuestion());
