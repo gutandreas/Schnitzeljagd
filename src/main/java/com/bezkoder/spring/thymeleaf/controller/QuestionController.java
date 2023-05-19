@@ -19,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bezkoder.spring.thymeleaf.entity.Tutorial;
 import com.bezkoder.spring.thymeleaf.repository.TutorialRepository;
 
+import javax.transaction.Transactional;
+
 
 @Controller
 public class QuestionController {
@@ -143,6 +145,7 @@ public class QuestionController {
 
   @GetMapping("/check")
   @ResponseBody
+  @Transactional
   public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer, @RequestParam @NonNull String code) {
 
     boolean codeIsValid = userRepository.existsByCode(code);
