@@ -16,6 +16,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   List<User> findByVornameIgnoreCase(String keyword);
   List<User> findByNachnameIgnoreCase(String keyword);
 
+  List<User> findByCode(String code);
   boolean existsByCode(String code);
+
+  @Query("SELECT u FROM User u ORDER BY u.id DESC")
+  List<User> findNewestUsers();
+
+  @Query("SELECT u FROM User u ORDER BY (u.stop - u.start) DESC")
+  List<User> findAllOrderByDifference();
+
 
 }

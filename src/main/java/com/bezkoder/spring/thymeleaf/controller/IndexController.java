@@ -28,6 +28,7 @@ public class IndexController {
             User user = new User();
             user.setVorname(vorname);
             user.setNachname(nachname);
+            user.setPostennummer(1);
             user.setCode(code);
             user.setStart(LocalDateTime.now());
             userRepository.save(user);
@@ -44,6 +45,7 @@ public class IndexController {
 
         } catch (Exception e) {
             redirectAttributes.addAttribute("message", e.getMessage());
+            System.out.println(e);
         }
 
         return "error";

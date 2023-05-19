@@ -159,6 +159,11 @@ public class QuestionController {
       if (s.toLowerCase().equals(answer.toLowerCase())) {
         answerCorrect = true;
         System.out.println("Aufgabe " + number + " wurde richtig beantwortet.");
+        User user = userRepository.findByCode(code).get(0);
+        int postennummerBefore = user.getPostennummer();
+        int postennummerAfter = postennummerBefore + 1;
+        user.setPostennummer(postennummerAfter);
+        System.out.println(user);
         return "Die Antwort ist richtig! Den nächsten Posten findest du hier: " + question.getNextStep();
       }
     }
@@ -168,12 +173,6 @@ public class QuestionController {
 
   }
 
-  @GetMapping("/tutorials/start")
-  public String start(Model model) {
-    User user = new User();
-
-    return "";
-  }
 
 
 

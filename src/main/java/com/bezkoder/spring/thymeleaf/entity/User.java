@@ -1,6 +1,7 @@
 package com.bezkoder.spring.thymeleaf.entity;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,6 +22,9 @@ public class User {
   private String nachname;
 
   @Column(nullable = false)
+  private Integer postennummer;
+
+  @Column(nullable = false)
   private boolean fertig;
 
   @Column(nullable = true)
@@ -29,10 +33,12 @@ public class User {
   @Column(nullable = true)
   private LocalDateTime stop;
 
+  @Column
+  private Duration duration;
+
 
 
   public User() {
-
   }
 
 
@@ -77,9 +83,17 @@ public class User {
     this.fertig = fertig;
   }
 
+  public int getPostennummer() {
+    return postennummer;
+  }
+
+  public void setPostennummer(int postennummer) {
+    this.postennummer = postennummer;
+  }
+
   @Override
   public String toString() {
-    return "Tutorial [id=" + id + ", uuid=" + code + ", vorname=" + vorname + ", nachname=" + nachname + ", start=" + start + ", stop=" + stop + ", fertig=" + fertig + "]";
+    return "Tutorial [id=" + id + ", uuid=" + code + ", vorname=" + vorname + ", nachname=" + nachname + ", postennummer=" + postennummer + ", start=" + start + ", stop=" + stop + ", fertig=" + fertig + "]";
   }
 
 }
