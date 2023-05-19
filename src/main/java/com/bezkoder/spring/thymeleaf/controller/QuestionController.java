@@ -125,8 +125,9 @@ public class QuestionController {
   // localhost:8080/qr?encryptedkey=FQ90BM
 
   @GetMapping("/qr")
-  public String loadQuestion(Model model, @RequestParam @NonNull String encryptedkey ){
+  public String loadQuestion(Model model, @RequestParam @NonNull String encryptedkey, @RequestParam @NonNull String code){
 
+    System.out.println(code);
     Question question = QuestionList.getQuestionByEncryptedKey(encryptedkey);
     model.addAttribute("number", QuestionList.getQuestionNumberByEncryptedKey(encryptedkey));
     model.addAttribute("question", question.getQuestion());
@@ -144,7 +145,13 @@ public class QuestionController {
 
   @GetMapping("/check")
   @ResponseBody
-  public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer, @RequestParam @NonNull UUID uuid) {
+  public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer, @RequestParam @NonNull String code) {
+
+    boolean codeIsValid = userRepository.existsByCode(code);
+
+    if (!codeIsValid){
+      return "Dein Code ist nicht gültig...";
+    }
 
     boolean answerCorrect = false;
     Question question = QuestionList.getQuestionByNumber(number);

@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   List<User> findByVornameIgnoreCase(String keyword);
   List<User> findByNachnameIgnoreCase(String keyword);
 
+  boolean existsByCode(String code);
+
 }

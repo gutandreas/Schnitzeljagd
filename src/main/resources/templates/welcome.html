@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Schnitzeljagd</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
+    <script type="text/javascript" th:src="@{/scripts/indexScript.js}"></script>
 </head>
 <body>
 <h1>Willkommen zur Schnitzeljagd, [[${vorname}]]!</h1>
@@ -12,7 +14,9 @@
 <p>Was du dir am besten gleich notierst, ist dein persönlicher Identifikationscode! Ihn brauchst du immer wieder zum
 Einreichen der Lösungen. Er lautet:</p>
 <br>
-<p>[[${code}]]</p>
+<p id="code">[[${code}]]</p>
+
+<input id="startButton", type="button" onclick="start()" value="Schnitzeljagd starten">
 
 </body>
 </html>

@@ -14,13 +14,15 @@
 
 
 <p>[[${question}]]</p>
-<form>
-    <label for="antwort">Antwort:</label>
-    <input type="text" id="antwort" name="antwort" required>
-    <button type="button" onclick="sendAnswer()">Antwort senden</button>
-    <br>
-    <button type="button" onclick="getHint()"> Tipp anfordern</button>
-</form>
+
+<label for="antwort">Antwort:</label>
+<input type="text" id="antwort" name="antwort" required>
+<label for="code">Code:</label>
+<input type="text" id="code" name="code" required>
+<button type="button" onclick="sendAnswer()">Antwort senden</button>
+<br>
+<button type="button" onclick="getHint()"> Tipp anfordern</button>
+
 <p id="hint_label">Tipp...</p>
 <p id="answer_correct"></p>
 </body>
