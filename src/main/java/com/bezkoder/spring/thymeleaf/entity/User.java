@@ -93,7 +93,7 @@ public class User {
 
   @Override
   public String toString() {
-    return "Tutorial [id=" + id + ", uuid=" + code + ", vorname=" + vorname + ", nachname=" + nachname + ", postennummer=" + postennummer + ", start=" + start + ", stop=" + stop + ", fertig=" + fertig + "]";
+    return "User [id=" + id + ", uuid=" + code + ", vorname=" + vorname + ", nachname=" + nachname + ", postennummer=" + postennummer + ", start=" + start + ", stop=" + stop + ", fertig=" + fertig + "]";
   }
 
 }
