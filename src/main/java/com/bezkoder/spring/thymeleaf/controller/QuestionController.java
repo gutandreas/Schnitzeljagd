@@ -149,9 +149,11 @@ public class QuestionController {
 
     User user = userRepository.findByCode(code).get(0);
     user.setStop(LocalDateTime.now());
+    user.setFertig(true);
+    user.calculateDuration();
 
     model.addAttribute("vorname", user.getVorname());
-    model.addAttribute("zeit", "8:43");
+    model.addAttribute("zeit", user.getDuration().toSeconds());
     model.addAttribute("rang", 9);
 
 

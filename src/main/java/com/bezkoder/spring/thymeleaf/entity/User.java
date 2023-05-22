@@ -41,6 +41,9 @@ public class User {
   public User() {
   }
 
+  public void calculateDuration(){
+    duration = Duration.between(start, stop);
+  }
 
 
   public Integer getId() {
@@ -93,6 +96,10 @@ public class User {
 
   public void setPostennummer(int postennummer) {
     this.postennummer = postennummer;
+  }
+
+  public Duration getDuration() {
+    return duration;
   }
 
   @Override
