@@ -22,8 +22,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   @Query("SELECT u FROM User u ORDER BY u.id DESC")
   List<User> findNewestUsers();
 
-  @Query("SELECT u FROM User u ORDER BY (u.stop - u.start) DESC")
-  List<User> findAllOrderByDifference();
+  @Query("SELECT u FROM User u WHERE u.duration IS NOT NULL ORDER BY u.duration")
+  List<User> getRanking();
 
 
 }

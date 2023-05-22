@@ -136,33 +136,7 @@ public class QuestionController {
     return "questions";
   }
 
-  // localhost:8080/finish?encryptedkey=KJ73DP&code=...
-  @GetMapping("/finish")
-  @Transactional
-  public String checkFinish(Model model, @RequestParam @NonNull String encryptedkey, @RequestParam @NonNull String code){
 
-    boolean codeIsValid = userRepository.existsByCode(code);
-
-    if (!codeIsValid){
-      return "Dein Code ist nicht gültig...";
-    }
-
-    User user = userRepository.findByCode(code).get(0);
-    user.setStop(LocalDateTime.now());
-    user.setFertig(true);
-    user.calculateDuration();
-
-    model.addAttribute("vorname", user.getVorname());
-    model.addAttribute("zeit", user.getDuration().toSeconds());
-    model.addAttribute("rang", 9);
-
-
-
-
-
-
-    return "finish";
-  }
 
 
   @GetMapping("/hint")
@@ -177,7 +151,8 @@ public class QuestionController {
   @Transactional
   public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer, @RequestParam @NonNull String code) {
 
-    boolean codeIsValid = userRepository.existsByCode(code);
+    User user = userRepository.findByCode(code).get(0);
+    boolean codeIsValid = userRepository.existsByCode(code) && number == user.getPostennummer() ;
 
     if (!codeIsValid){
       return "Dein Code ist nicht gültig...";
@@ -190,10 +165,7 @@ public class QuestionController {
       if (s.toLowerCase().equals(answer.toLowerCase())) {
         answerCorrect = true;
         System.out.println("Aufgabe " + number + " wurde richtig beantwortet.");
-        User user = userRepository.findByCode(code).get(0);
-        int postennummerBefore = user.getPostennummer();
-        int postennummerAfter = postennummerBefore + 1;
-        user.setPostennummer(postennummerAfter);
+        user.setPostennummer(user.getPostennummer()+1);
         System.out.println(user);
         return "Die Antwort ist richtig! Den nächsten Posten findest du hier: " + question.getNextStep();
       }
