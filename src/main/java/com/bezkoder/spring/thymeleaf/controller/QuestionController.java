@@ -1,5 +1,6 @@
 package com.bezkoder.spring.thymeleaf.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +136,32 @@ public class QuestionController {
     return "questions";
   }
 
+  // localhost:8080/finish?encryptedkey=KJ73DP&code=...
+  @GetMapping("/finish")
+  @Transactional
+  public String checkFinish(Model model, @RequestParam @NonNull String encryptedkey, @RequestParam @NonNull String code){
+
+    boolean codeIsValid = userRepository.existsByCode(code);
+
+    if (!codeIsValid){
+      return "Dein Code ist nicht gültig...";
+    }
+
+    User user = userRepository.findByCode(code).get(0);
+    user.setStop(LocalDateTime.now());
+
+    model.addAttribute("vorname", user.getVorname());
+    model.addAttribute("zeit", "8:43");
+    model.addAttribute("rang", 9);
+
+
+
+
+
+
+    return "finish";
+  }
+
 
   @GetMapping("/hint")
   @ResponseBody
@@ -171,9 +198,13 @@ public class QuestionController {
     }
 
     return "Die Antwort ist nicht korrekt...";
-
-
   }
+
+
+
+
+
+
 
 
 

@@ -59,6 +59,10 @@ public class User {
     this.start = start;
   }
 
+  public void setStop(LocalDateTime stop) {
+    this.stop = stop;
+  }
+
   public String getVorname() {
     return vorname;
   }

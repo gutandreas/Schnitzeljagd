@@ -14,6 +14,7 @@ public class QuestionList {
         encryptionMap.put("XF98EG", 1);
         encryptionMap.put("HJ34IK", 2);
         encryptionMap.put("FQ90BM", 3);
+        encryptionMap.put("KJ73DP", 4); // Abschluss
 
     }
 
