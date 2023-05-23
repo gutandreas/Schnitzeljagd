@@ -9,12 +9,11 @@ public class QuestionList {
     static {
         questionMap.put(1, new Question("turnhalle","Wie heisst Einstein mit Vorname?", new String[]{"Albert"}, "Er beginnt mit 'A'", "Haupteingang"));
         questionMap.put(2, new Question("haupteingang", "Wie heisst der Rektor mit Vorname?", new String[]{"Ueli", "Ulrich"}, "Er beginnt mit 'U'", "Sekretariat"));
-        questionMap.put(3, new Question("sekretariat","Wie heisst Bundesrat Berset mit Vorname", new String[]{"Alain"}, "Er beginnt mit 'A'", "Aula"));
+        questionMap.put(3, new Question("sekretariat","Wie heisst Bundesrat Berset mit Vorname?", new String[]{"Alain"}, "Er beginnt mit 'A'", "Aula"));
 
         encryptionMap.put("XF98EG", 1);
         encryptionMap.put("HJ34IK", 2);
         encryptionMap.put("FQ90BM", 3);
-        encryptionMap.put("KJ73DP", 4); // Abschluss
 
     }
 
@@ -32,6 +31,10 @@ public class QuestionList {
 
     public static Question getQuestionByNumber(int number){
         return questionMap.get(number);
+    }
+
+    public static int getTotalNumberOfQuestions(){
+        return questionMap.size();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.bezkoder.spring.thymeleaf.controller;
 
+import com.bezkoder.spring.thymeleaf.QuestionList;
 import com.bezkoder.spring.thymeleaf.entity.User;
 import com.bezkoder.spring.thymeleaf.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -21,8 +23,11 @@ public class FinishController {
 
     // localhost:8080/finish?encryptedkey=KJ73DP&code=...
     @GetMapping("/finish")
+    @ResponseBody
     @Transactional
-    public String checkFinish(Model model, @RequestParam @NonNull String encryptedkey, @RequestParam @NonNull String code){
+    public String checkFinish(Model model,  @RequestParam @NonNull String code){
+
+        System.out.println("Schnitzeljagd wird abgeschlossen");
 
         boolean codeIsValid = userRepository.existsByCode(code);
 
@@ -31,27 +36,36 @@ public class FinishController {
         }
 
         User user = userRepository.findByCode(code).get(0);
+
+        boolean numberIsValid = user.getPostennummer() == QuestionList.getTotalNumberOfQuestions() + 1;
+
+        if (!numberIsValid){
+            return "Du hast noch nicht alle Posten gelöst!";
+        }
+
+
         user.setStop(LocalDateTime.now());
         user.setFertig(true);
         user.calculateDuration();
 
-        model.addAttribute("vorname", user.getVorname());
-        model.addAttribute("zeit", user.getDurationAsFormattedString());
-        model.addAttribute("rang", 9);
+       String answer = "Herzliche Gratulation, " + user.getVorname() + ", du hast die Schnitzeljagd in "
+               + user.getDurationAsFormattedString() + " gemeistert!";
 
-        return "finish";
+        return answer;
     }
 
     @GetMapping("/ranking")
     public String getRanking(Model model){
         List<User> ranking = userRepository.getRanking();
-        String list = "";
         model.addAttribute("ranking", ranking);
-        for (User u : ranking){
-            //list += u.getVorname() + "\t" + u.getNachname() + "\t" + u.getDuration().toSeconds() + "\n";
-            //model.addAttribute("ranking", list);
-        }
 
         return "ranking";
+    }
+
+    @GetMapping("/checkout")
+    public String getCheckoutPage(){
+
+
+        return "checkout";
     }
 }

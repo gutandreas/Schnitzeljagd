@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>Herzlichen Glückwunsch!</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
+    <script type="text/javascript" th:src="@{/scripts/questionScript.js}"></script>
+</head>
+<body>
+<h1>Abschluss der Schnitzeljagd</h1>
+<p>Hast du alle Posten abgeschlossen? Gib zur Überprüfung deinen Code ein, dann wird die Zeit gestoppt.</p>
+<label for="code">Code:</label>
+<input type="text" id="code" name="code" maxlength="4" required>
+<br>
+<button id="hintButton" type="button" onclick="sendCheckout()">Schnitzeljagd abschliessen</button>
+
+<p id="answer"></p>
+
+</body>
+</html>
