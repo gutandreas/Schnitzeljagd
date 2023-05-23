@@ -37,7 +37,7 @@ public class CheckInController {
                 System.out.println(u);
             }
 
-            Codes.printCodes();
+            //Codes.printCodes();
 
             redirectAttributes.addFlashAttribute("message", "Der User wurde erfolgreich gespeichert.");
             return "redirect:/welcome?code=" + code + "&vorname=" + vorname;
