@@ -1,0 +1,39 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #88bbff;
+    font-weight: bold;
+}
+
+/* Zeilenhervorhebung bei Hover */
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Alternierende Hintergrundfarben für Zeilen */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Button-Styling für Aktionen */
+td.actions button {
+    padding: 6px 12px;
+    border: none;
+    background-color: #e0e0e0;
+    color: #333;
+    cursor: pointer;
+}
+
+td.actions button:hover {
+    background-color: #ccc;
+}
