@@ -60,7 +60,7 @@ button[type=submit] {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -75,10 +75,11 @@ button[type=submit] {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin: 20px;
+
 }
 
 #hintButton {
@@ -87,11 +88,55 @@ button[type=submit] {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin: 20px;
 }
+
+#startButton {
+    background-color: #3e8e41;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 20px;
+}
+
+#postit {
+... /* s.o. */
+    position: absolute;
+    transform: rotate(4deg);
+    width: 170px;
+    height: 150px;
+    padding: 25px 15px;
+    background: #fefabc linear-gradient(150deg, #efec88 0%, #fefabc 100%);
+    border: 1px solid #cccccc;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+
+}
+
+#postit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#postit p{
+    font-family: 'Courier New', cursive;
+    font-size: 3.5em;
+    text-align:center;
+    margin: 0.5em 0 0;
+    line-height:1em;
+    font-weight:bold;
+    color: darkblue;
+}
+
+
 
 
 

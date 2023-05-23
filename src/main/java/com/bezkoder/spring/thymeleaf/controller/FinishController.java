@@ -36,7 +36,7 @@ public class FinishController {
         user.calculateDuration();
 
         model.addAttribute("vorname", user.getVorname());
-        model.addAttribute("zeit", user.getDuration().toSeconds());
+        model.addAttribute("zeit", user.getDurationAsFormattedString());
         model.addAttribute("rang", 9);
 
         return "finish";

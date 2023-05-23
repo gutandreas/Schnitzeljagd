@@ -151,12 +151,21 @@ public class QuestionController {
   @Transactional
   public String checkAnswer(Model model, @RequestParam @NonNull int number, @RequestParam @NonNull String answer, @RequestParam @NonNull String code) {
 
-    User user = userRepository.findByCode(code).get(0);
-    boolean codeIsValid = userRepository.existsByCode(code) && number == user.getPostennummer() ;
+
+    boolean codeIsValid = userRepository.existsByCode(code);
 
     if (!codeIsValid){
       return "Dein Code ist nicht gültig...";
     }
+
+    User user = userRepository.findByCode(code).get(0);
+    boolean numberIsValid = number == user.getPostennummer();
+
+    if (!numberIsValid){
+      return "Du bist nicht beim korrekten Posten!";
+    }
+
+
 
     boolean answerCorrect = false;
     Question question = QuestionList.getQuestionByNumber(number);

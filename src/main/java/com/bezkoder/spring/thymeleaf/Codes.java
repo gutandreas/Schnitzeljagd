@@ -9,7 +9,7 @@ import java.util.Random;
 public class Codes {
     private static final int LIST_SIZE = 1000;
     private static final int CODE_LENGTH = 4;
-    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
     private static List<String> codeList;
     private static int index = 0;
 

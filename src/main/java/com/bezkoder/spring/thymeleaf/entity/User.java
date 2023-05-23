@@ -103,6 +103,11 @@ public class User {
     return duration;
   }
 
+  public String getDurationAsFormattedString(){
+    long durationInSeconds = duration.getSeconds();
+    return String.format("%d:%02d:%02d", durationInSeconds / 3600, (durationInSeconds % 3600) / 60, (durationInSeconds % 60));
+  }
+
   @Override
   public String toString() {
     return "User [id=" + id + ", uuid=" + code + ", vorname=" + vorname + ", nachname=" + nachname + ", postennummer=" + postennummer + ", start=" + start + ", stop=" + stop + ", fertig=" + fertig + "]";
