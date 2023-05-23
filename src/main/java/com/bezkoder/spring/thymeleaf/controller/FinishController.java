@@ -46,10 +46,11 @@ public class FinishController {
     public String getRanking(Model model){
         List<User> ranking = userRepository.getRanking();
         String list = "";
+        model.addAttribute("ranking", ranking);
         for (User u : ranking){
-            list += u.getVorname() + "\t" + u.getNachname() + "\t" + u.getDuration().toSeconds() + "\n";
+            //list += u.getVorname() + "\t" + u.getNachname() + "\t" + u.getDuration().toSeconds() + "\n";
+            //model.addAttribute("ranking", list);
         }
-        model.addAttribute("ranking", list);
 
         return "ranking";
     }

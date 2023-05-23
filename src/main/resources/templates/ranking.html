@@ -5,7 +5,22 @@
     <title>Schnitzeljagd – Rangliste</title>
 </head>
 <body>
-<p>[[${ranking}]]</p>
-
+<h1>Rangliste</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Vorname</th>
+        <th>Name</th>
+        <th>Zeit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${ranking}">
+        <td th:text="${user.vorname}"></td>
+        <td th:text="${user.nachname}"></td>
+        <td th:text="${user.duration}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

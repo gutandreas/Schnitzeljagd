@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
+@Access(AccessType.FIELD)
 @Table(name = "users")
 public class User {
 
