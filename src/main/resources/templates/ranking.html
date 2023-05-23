@@ -9,13 +9,15 @@
 <table>
     <thead>
     <tr>
+        <th>Rang</th>
         <th>Vorname</th>
         <th>Name</th>
         <th>Zeit</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${ranking}">
+    <tr th:each="user, rowStat : ${ranking}">
+        <td th:text="${rowStat.count}"></td>
         <td th:text="${user.vorname}"></td>
         <td th:text="${user.nachname}"></td>
         <td th:text="${user.duration}"></td>
