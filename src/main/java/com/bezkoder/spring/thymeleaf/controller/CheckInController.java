@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDateTime;
 
 @Controller
-public class IndexController {
+public class CheckInController {
 
     @Autowired
     UserRepository userRepository;

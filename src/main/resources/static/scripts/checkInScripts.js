@@ -1,10 +1,7 @@
 var ip = "http://localhost:8080"
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Finde den Button anhand seiner ID
     var button = document.getElementById("startButton");
-
-    // Hänge die Funktion an das Klick-Ereignis des Buttons
     button.addEventListener("click", startGame);
 });
 

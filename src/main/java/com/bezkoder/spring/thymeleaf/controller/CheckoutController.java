@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-public class FinishController {
+public class CheckoutController {
 
     @Autowired
     private UserRepository userRepository;
