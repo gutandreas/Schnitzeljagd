@@ -1,5 +1,3 @@
-var ip = "http://localhost:8080"
-
 document.addEventListener("DOMContentLoaded", function() {
     var button = document.getElementById("startButton");
     button.addEventListener("click", startGame);
@@ -7,6 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function startGame(){
     var code = document.getElementById("code").innerHTML;
-    var url = ip + "/qr?encryptedkey=XF98EG";
+    var url = "/qr?encryptedkey=XF98EG";
     window.location.href = url;
 }
