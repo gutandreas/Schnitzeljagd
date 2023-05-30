@@ -14,6 +14,15 @@ public class QuestionList {
         encryptionMap.put("XF98EG", 1);
         encryptionMap.put("HJ34IK", 2);
         encryptionMap.put("FQ90BM", 3);
+        encryptionMap.put("KL73CS", 4);
+        encryptionMap.put("QH17BX", 5);
+        encryptionMap.put("EI45KS", 6);
+        encryptionMap.put("TU34PC", 7);
+        encryptionMap.put("AW91LD", 8);
+        encryptionMap.put("GI04ZI", 9);
+        encryptionMap.put("LQ61VK", 10);
+        encryptionMap.put("ZU92MX", 11);
+        encryptionMap.put("SE70MV", 12);
 
     }
 

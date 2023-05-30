@@ -20,9 +20,22 @@ public class QuestionController {
     @Autowired
     private UserRepository userRepository;
 
-    // localhost:8080/qr?encryptedkey=XF98EG
-    // localhost:8080/qr?encryptedkey=HJ34IK
-    // localhost:8080/qr?encryptedkey=FQ90BM
+    // 217.160.10.113:8080/qr?encryptedkey=XF98EG 1
+    // 217.160.10.113:8080/qr?encryptedkey=HJ34IK 2
+    // 217.160.10.113:8080/qr?encryptedkey=FQ90BM 3
+    // 217.160.10.113:8080/qr?encryptedkey=KL73CS 4
+    // 217.160.10.113:8080/qr?encryptedkey=QH17BX 5
+    // 217.160.10.113:8080/qr?encryptedkey=EI45KS 6
+    // 217.160.10.113:8080/qr?encryptedkey=TU34PC 7
+    // 217.160.10.113:8080/qr?encryptedkey=AW91LD 8
+    // 217.160.10.113:8080/qr?encryptedkey=GI04ZI 9
+    // 217.160.10.113:8080/qr?encryptedkey=LQ61VK 10
+    // 217.160.10.113:8080/qr?encryptedkey=ZU92MX 11
+    // 217.160.10.113:8080/qr?encryptedkey=SE70MV 12
+
+
+
+
 
     @GetMapping("/qr")
     public String loadQuestion(Model model, @RequestParam @NonNull String encryptedkey) {
