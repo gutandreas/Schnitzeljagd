@@ -7,7 +7,7 @@ public class QuestionList {
     private static final HashMap<Integer, Question> questionMap = new HashMap<>();
     private static final HashMap<String, Integer> encryptionMap = new HashMap<>();
     static {
-        addQuestionsToMap(2);
+        addQuestionsToMap(1);
         addEncryptedKeysToMap();
     }
 

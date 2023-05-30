@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.Random;
 
 public class Codes {
-    private static final int LIST_SIZE = 1000;
+    private static final int LIST_SIZE = 10000;
     private static final int CODE_LENGTH = 4;
     private static final String CHARACTERS = "ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
     private static List<String> codeList;
@@ -41,6 +41,10 @@ public class Codes {
         for (String s : codeList){
             System.out.println(s);
         }
+    }
+
+    public static void resetIndex(){
+        index = 0;
     }
 
 }

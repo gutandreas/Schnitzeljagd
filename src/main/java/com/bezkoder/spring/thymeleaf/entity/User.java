@@ -103,6 +103,12 @@ public class User {
     return duration;
   }
 
+  public LocalDateTime getStart() {
+    return start;
+  }
+
+
+
   public String getDurationAsFormattedString(){
     long durationInSeconds = duration.getSeconds();
     return String.format("%d:%02d:%02d", durationInSeconds / 3600, (durationInSeconds % 3600) / 60, (durationInSeconds % 60));

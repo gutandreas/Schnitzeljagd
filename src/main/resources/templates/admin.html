@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adminbereich</title>
+    <script type="text/javascript" th:src="@{/scripts/adminScripts.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/rankingstyle.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Vorname</th>
+        <th>Name</th>
+        <th>Startzeit</th>
+        <th>Postennummer</th>
+        <th>Fertig</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${data}">
+        <td th:text="${user.vorname}"></td>
+        <td th:text="${user.nachname}"></td>
+        <td th:text="${user.getStart()}"></td>
+        <td th:text="${user.getPostennummer()}"></td>
+        <td th:text="${user.isFertig()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<button id="deleteButton" type="button" onclick="deleteAll()">Alle Nutzer löschen</button>
+<br>
+<input id="modusText" maxlength="1" style="width: 30px" type="text"><button id="modusButton" type="button" onclick="changeModus()">Modus ändern</button>
+
+
+
+</body>
+</html>
