@@ -16,15 +16,15 @@ public class QuestionList {
         switch (modus){
             case 1:
                 System.out.println("Modus Kantifest gestartet");
-                questionMap.put(1, new Question("Physiker", "Turnhalle","Wie heisst der Physiker Einstein mit Vorname?", new String[]{"Albert"}, "Er beginnt mit 'A'", "Haupteingang"));
-                questionMap.put(2, new Question("Rektor", "Haupteingang", "Wie heisst der Rektor mit Vorname?", new String[]{"Ueli", "Ulrich"}, "Er beginnt mit 'U'", "Sekretariat"));
-                questionMap.put(3, new Question("Bundesrat", "Sekretariat","Wie heisst Bundesrat Berset mit Vorname?", new String[]{"Alain"}, "Er beginnt mit 'A'", "Aula"));
+                questionMap.put(1, new Question("Physiker", "Turnhalle","Wie heisst der Physiker Einstein mit Vorname?", new String[]{"Albert"}, "Er beginnt mit 'A'"));
+                questionMap.put(2, new Question("Rektor", "Haupteingang", "Wie heisst der Rektor mit Vorname?", new String[]{"Ueli", "Ulrich"}, "Er beginnt mit 'U'"));
+                questionMap.put(3, new Question("Bundesrat", "Sekretariat","Wie heisst Bundesrat Berset mit Vorname?", new String[]{"Alain"}, "Er beginnt mit 'A'"));
                 break;
             case 2:
                 System.out.println("Modus G21s gestartet");
-                questionMap.put(1, new Question("Präsident","Turnhalle","Wie heisst Trump mit Vorname?", new String[]{"Donald"}, "Er beginnt mit 'D'", "Haupteingang"));
-                questionMap.put(2, new Question("Rektor, ", "Haupteingang", "Wie heisst der Rektor mit Vorname?", new String[]{"Ueli", "Ulrich"}, "Er beginnt mit 'U'", "Sekretariat"));
-                questionMap.put(3, new Question("Bundesrat", "Sekretariat","Wie heisst Bundesrat Berset mit Vorname?", new String[]{"Alain"}, "Er beginnt mit 'A'", "Aula"));
+                questionMap.put(1, new Question("Präsident","Turnhalle","Wie heisst Trump mit Vorname?", new String[]{"Donald"}, "Er beginnt mit 'D'"));
+                questionMap.put(2, new Question("Rektor, ", "Haupteingang", "Wie heisst der Rektor mit Vorname?", new String[]{"Ueli", "Ulrich"}, "Er beginnt mit 'U'"));
+                questionMap.put(3, new Question("Bundesrat", "Sekretariat","Wie heisst Bundesrat Berset mit Vorname?", new String[]{"Alain"}, "Er beginnt mit 'A'"));
                 break;
         }
 

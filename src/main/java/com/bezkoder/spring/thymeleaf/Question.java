@@ -8,16 +8,14 @@ public class Question {
     private String question;
     private String[] correctAnswers;
     private String hint;
-    private String nextStep;
 
 
-    public Question(String title, String place, String question, String[] correctAnswers, String hint, String nextStep) {
+    public Question(String title, String place, String question, String[] correctAnswers, String hint) {
         this.title = title;
         this.place = place;
         this.question = question;
         this.correctAnswers = correctAnswers;
         this.hint = hint;
-        this.nextStep = nextStep;
     }
 
     public String getQuestion() {
@@ -38,9 +36,5 @@ public class Question {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getNextStep() {
-        return nextStep;
     }
 }
