@@ -13,8 +13,10 @@
     <tr>
         <th>Vorname</th>
         <th>Name</th>
+        <th>Code</th>
         <th>Startzeit</th>
         <th>Postennummer</th>
+        <th>Postenreihenfolge</th>
         <th>Fertig</th>
     </tr>
     </thead>
@@ -22,8 +24,10 @@
     <tr th:each="user : ${data}">
         <td th:text="${user.vorname}"></td>
         <td th:text="${user.nachname}"></td>
+        <td th:text="${user.getCode()}"></td>
         <td th:text="${user.getStart()}"></td>
         <td th:text="${user.getPostennummer()}"></td>
+        <td th:text="${user.getPostenListMixed()}"></td>
         <td th:text="${user.isFertig()}"></td>
     </tr>
     </tbody>

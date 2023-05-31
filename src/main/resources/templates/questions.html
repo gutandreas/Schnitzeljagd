@@ -10,10 +10,10 @@
     </script>
 </head>
 <body>
-<h1 id="question_number">Aufgabe [[${number}]]</h1>
+<h1 id="question_number">Aufgabe <span th:text="${question.title}"></span></h1>
 
 
-<p>[[${question}]]</p>
+<p><span th:text="${question.question}"></span></p>
 
 <label for="antwort">Antwort:</label>
 <input type="text" id="antwort" name="antwort" required>
@@ -24,7 +24,9 @@
 <button id="sendButton" type="button" onclick="sendAnswer()">Antwort senden</button>
 <button id="hintButton" type="button" onclick="getHint()"> Tipp anfordern</button>
 
-<p id="hint_label">Tipp...</p>
+<p id="hint_label"><span th:text="${question.hint}"></span></p>
 <p id="answer_correct"></p>
+
+<p id="posten_number">[[${number}]]</p>
 </body>
 </html>

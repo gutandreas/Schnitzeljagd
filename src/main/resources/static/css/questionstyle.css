@@ -18,6 +18,8 @@ p {
     margin-top: 20px;
 }
 
+
+
 /* Formularstil */
 
 form {
@@ -106,6 +108,10 @@ button[type=submit] {
     margin: 20px;
 }
 
+#hint_label {
+    display: none;
+}
+
 #hintButton {
     background-color: #3355ff;
     color: white;
@@ -116,6 +122,10 @@ button[type=submit] {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin: 20px;
+}
+
+#posten_number{
+    display: none;
 }
 
 #startButton {

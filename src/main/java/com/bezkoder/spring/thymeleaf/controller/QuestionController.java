@@ -42,8 +42,8 @@ public class QuestionController {
 
         Question question = QuestionList.getQuestionByEncryptedKey(encryptedkey);
         model.addAttribute("number", QuestionList.getQuestionNumberByEncryptedKey(encryptedkey));
-        model.addAttribute("question", question.getQuestion());
-        model.addAttribute("hint", "Tipp...");
+        model.addAttribute("question", question);
+        //model.addAttribute("hint", "Tipp...");
         return "questions";
     }
 
@@ -68,7 +68,7 @@ public class QuestionController {
         }
 
         User user = userRepository.findByCode(code).get(0);
-        boolean numberIsValid = number == user.getPostennummer();
+        boolean numberIsValid = number == user.getPostenListMixed().get(user.getPostennummer()-1);
 
         if (!numberIsValid) {
             return "Du bist nicht beim korrekten Posten!";
@@ -78,10 +78,18 @@ public class QuestionController {
 
         for (String s : question.getCorrectAnswers()) {
             if (s.equalsIgnoreCase(answer)) {
+
+                if (user.getPostennummer() == QuestionList.getTotalNumberOfQuestions()){
+                    user.setPostennummer(user.getPostennummer() + 1);
+                    return "Die Antwort ist richtig! Damit hast du alle Posten gelöst. Gehe zurück zum Start, um die Schnitzeljagd abzuschliessen";
+                }
+
                 System.out.println("Aufgabe " + number + " wurde richtig beantwortet.");
-                user.setPostennummer(user.getPostennummer() + 1);
                 System.out.println(user);
-                return "Die Antwort ist richtig! Den nächsten Posten findest du hier: " + question.getNextStep();
+                String placeOfNextPosten = QuestionList.getQuestionByNumber(user.getNextPostenNumber()).getPlace();
+                String response = "Die Antwort ist richtig! Den nächsten Posten findest du hier: " + placeOfNextPosten;
+                user.setPostennummer(user.getPostennummer() + 1);
+                return response;
             }
         }
 

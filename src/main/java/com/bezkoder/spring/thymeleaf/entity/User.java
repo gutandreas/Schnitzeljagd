@@ -3,6 +3,7 @@ package com.bezkoder.spring.thymeleaf.entity;
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -25,6 +26,9 @@ public class User {
   @Column(nullable = false)
   private Integer postennummer;
 
+  @ElementCollection
+  private List<Integer> postenListMixed;
+
   @Column(nullable = false)
   private boolean fertig;
 
@@ -36,6 +40,8 @@ public class User {
 
   @Column
   private Duration duration;
+
+
 
 
 
@@ -53,6 +59,10 @@ public class User {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public String getCode() {
+    return code;
   }
 
   public void setCode(String code) {
@@ -91,6 +101,14 @@ public class User {
     this.fertig = fertig;
   }
 
+  public void setPostenListMixed(List<Integer> postenListMixed) {
+    this.postenListMixed = postenListMixed;
+  }
+
+  public List<Integer> getPostenListMixed() {
+    return postenListMixed;
+  }
+
   public int getPostennummer() {
     return postennummer;
   }
@@ -112,6 +130,10 @@ public class User {
   public String getDurationAsFormattedString(){
     long durationInSeconds = duration.getSeconds();
     return String.format("%d:%02d:%02d", durationInSeconds / 3600, (durationInSeconds % 3600) / 60, (durationInSeconds % 60));
+  }
+
+  public int getNextPostenNumber(){
+    return postenListMixed.get(postennummer);
   }
 
   @Override

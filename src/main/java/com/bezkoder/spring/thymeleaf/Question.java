@@ -3,6 +3,7 @@ package com.bezkoder.spring.thymeleaf;
 public class Question {
 
 
+    private String title;
     private String place;
     private String question;
     private String[] correctAnswers;
@@ -10,7 +11,8 @@ public class Question {
     private String nextStep;
 
 
-    public Question(String place, String question, String[] correctAnswers, String hint, String nextStep) {
+    public Question(String title, String place, String question, String[] correctAnswers, String hint, String nextStep) {
+        this.title = title;
         this.place = place;
         this.question = question;
         this.correctAnswers = correctAnswers;
@@ -28,6 +30,14 @@ public class Question {
 
     public String getHint() {
         return hint;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getNextStep() {
