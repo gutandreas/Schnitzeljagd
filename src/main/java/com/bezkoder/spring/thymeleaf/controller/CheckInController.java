@@ -5,6 +5,7 @@ import com.bezkoder.spring.thymeleaf.QuestionList;
 import com.bezkoder.spring.thymeleaf.entity.User;
 import com.bezkoder.spring.thymeleaf.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,9 @@ public class CheckInController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Value("${schnitzeljagd.reihenfolge}")
+    int reihenfolgenmodus;
 
     @PostMapping("/register")
     public String register(@RequestParam String vorname, @RequestParam String nachname, RedirectAttributes redirectAttributes){
@@ -73,12 +77,14 @@ public class CheckInController {
             numbers[i] = i+1;
         }
 
-        for (int i = 1; i < numerOfQuestions; i++){
-            int pos1 = 1 + new Random().nextInt(numerOfQuestions-1);
-            int pos2 = 1 + new Random().nextInt(numerOfQuestions-1);
-            int temp = numbers[pos2];
-            numbers[pos2] = numbers[pos1];
-            numbers[pos1] = temp;
+        if (reihenfolgenmodus == 2) {
+            for (int i = 1; i < numerOfQuestions; i++) {
+                int pos1 = 1 + new Random().nextInt(numerOfQuestions - 1);
+                int pos2 = 1 + new Random().nextInt(numerOfQuestions - 1);
+                int temp = numbers[pos2];
+                numbers[pos2] = numbers[pos1];
+                numbers[pos1] = temp;
+            }
         }
 
         for (int i = 0; i < numerOfQuestions; i++){

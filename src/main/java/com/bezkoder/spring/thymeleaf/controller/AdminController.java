@@ -40,6 +40,7 @@ public class AdminController {
 
     @GetMapping("/admin/changeModus")
     public ResponseEntity<String> changeModus(@RequestParam int modus) {
+        alleDatenLoeschen();
         QuestionList.addQuestionsToMap(modus);
         return ResponseEntity.status(HttpStatus.OK).body("Alle Daten wurden erfolgreich gelöscht.");
     }
