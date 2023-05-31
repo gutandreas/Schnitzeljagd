@@ -1,7 +1,7 @@
 /* Allgemeine Stile */
 
 body {
-    background-color: #f2f2f2;
+    background-color: #eeeeee;
     font-family: Arial, sans-serif;
     text-align: center;
 }
@@ -46,7 +46,7 @@ input[type=text] {
 }
 
 button[type=submit] {
-    background-color: #4CAF50;
+    background-color: dodgerblue;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -57,7 +57,7 @@ button[type=submit] {
 }
 
 #register-button {
-    background-color: #4CAF50;
+    background-color: dodgerblue;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -68,11 +68,11 @@ button[type=submit] {
 }
 
 #register-button:hover {
-    background-color: #3e8e41;
+    background-color: cornflowerblue;
 }
 
 #sendButton {
-    background-color: #3e8e41;
+    background-color: mediumseagreen;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -97,7 +97,7 @@ button[type=submit] {
 }
 
 #modusButton {
-    background-color: #3355ff;
+    background-color: red;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -113,7 +113,7 @@ button[type=submit] {
 }
 
 #hintButton {
-    background-color: #3355ff;
+    background-color: dodgerblue;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -129,7 +129,7 @@ button[type=submit] {
 }
 
 #startButton {
-    background-color: #3e8e41;
+    background-color: dodgerblue;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -167,7 +167,7 @@ button[type=submit] {
     margin: 0.5em 0 0;
     line-height:1em;
     font-weight:bold;
-    color: darkblue;
+    color: darkslategray;
 }
 
 
@@ -176,25 +176,34 @@ button[type=submit] {
 
 /* Medienabfragen für mobile Geräte */
 
-@media (max-width: 600px) {
+@media only screen and (max-width: 768px){
+
     h1 {
-        font-size: 24px;
+        font-size: 40px;
         margin-top: 20px;
     }
 
     p {
-        font-size: 20px;
+        font-size: 25px;
         margin-top: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     input[type=text] {
         font-size: 16px;
-        width: 80%;
-        max-width: 300px;
+        width: 90%;
+        max-width: 500px;
     }
 
     button[type=submit] {
-        font-size: 16px;
+        font-size: 30px;
         padding: 8px 16px;
     }
+
+    input[type=button] {
+        font-size: 30px;
+        padding: 8px 16px;
+    }
+
 }
