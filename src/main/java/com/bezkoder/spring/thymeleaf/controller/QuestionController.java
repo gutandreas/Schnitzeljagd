@@ -71,7 +71,9 @@ public class QuestionController {
         boolean numberIsValid = number == user.getPostenListMixed().get(user.getPostennummer()-1);
 
         if (!numberIsValid) {
-            return "Du bist nicht beim korrekten Posten!";
+            int userPostennummer = user.getPostennummer();
+            String userPlace = QuestionList.getQuestionByNumber(user.getPostenListMixed().get(userPostennummer-1)).getPlace();
+            return "Du bist nicht beim korrekten Posten! Dein richtiger Posten befindet sich hier: " + userPlace;
         }
 
         Question question = QuestionList.getQuestionByNumber(number);
