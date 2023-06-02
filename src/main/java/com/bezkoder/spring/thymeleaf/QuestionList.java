@@ -16,9 +16,11 @@ public class QuestionList {
         switch (modus){
             case 1:
                 System.out.println("Modus Kantifest gestartet");
-                questionMap.put(1, new Question("Physiker", "Turnhalle","Wie heisst der Physiker Einstein mit Vorname?", new String[]{"Albert"}, "Er beginnt mit 'A'"));
-                questionMap.put(2, new Question("Rektor", "Haupteingang", "Wie heisst der Rektor mit Vorname?", new String[]{"Ueli", "Ulrich"}, "Er beginnt mit 'U'"));
+                questionMap.put(1, new Question("Einstieg", "Turnhalle","Diese Schnitzeljagd ist von der Fachschaft des Fachs ... organisiert.", new String[]{"Informatik"}, "Es beginnt mit 'I'"));
+                questionMap.put(2, new Question("Leuchtendes Lämpchen", "Haupteingang", "Wie heisst das Lösungswort, mit dem das Lämpchen leuchtet?", new String[]{"jodeln"}, "Beginne beim Schaltplan vom Lämpchen her. Ein gesuchter Buchstabe ist 'j'."));
                 questionMap.put(3, new Question("Bundesrat", "Sekretariat","Wie heisst Bundesrat Berset mit Vorname?", new String[]{"Alain"}, "Er beginnt mit 'A'"));
+                questionMap.put(4, new Question("Bundesrätin", "Mensa","Wie heisst Bundesrätin Amherd mit Vorname?", new String[]{"Viola"}, "Er beginnt mit 'V'"));
+
                 break;
             case 2:
                 System.out.println("Modus G21s gestartet");
