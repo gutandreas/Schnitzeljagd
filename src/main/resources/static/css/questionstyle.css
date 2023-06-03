@@ -50,6 +50,16 @@ input[type=text] {
     margin-bottom: 20px;
 }
 
+input[type=password] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
 button[type=submit] {
     background-color: dodgerblue;
     color: white;
