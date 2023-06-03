@@ -22,7 +22,7 @@ public class AdminController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/admin/loadPage")
+    @GetMapping("/admin/load")
     public String getAdminPage(Model model){
         List<User> data = userRepository.findAll();
         model.addAttribute("data", data);
