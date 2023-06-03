@@ -61,7 +61,7 @@ input[type=password] {
 }
 
 button[type=submit] {
-    background-color: dodgerblue;
+    background-color: #5078A4;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -72,7 +72,7 @@ button[type=submit] {
 }
 
 #register-button {
-    background-color: dodgerblue;
+    background-color: #5078A4;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -83,7 +83,7 @@ button[type=submit] {
 }
 
 #register-button:hover {
-    background-color: cornflowerblue;
+    background-color: #6088b4;
 }
 
 #sendButton {
@@ -128,7 +128,7 @@ button[type=submit] {
 }
 
 #hintButton {
-    background-color: dodgerblue;
+    background-color: #5078A4;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -144,7 +144,7 @@ button[type=submit] {
 }
 
 #startButton {
-    background-color: dodgerblue;
+    background-color: #5078A4;
     color: white;
     padding: 10px 20px;
     border: none;

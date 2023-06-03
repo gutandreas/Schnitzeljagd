@@ -22,8 +22,8 @@ public class QuestionList {
                 questionMap.put(4, new Question("Distanz", "Zimmer 010 (Aufgabe 'Distanz')", "Welche Eigenschaft muss die Distanz haben, damit Musik gespielt wird? (In einem Wort)", new String[]{"quadrat", "quadratzahl"}, "Das 'Gegenteil' der Wurzel..."));
                 questionMap.put(5, new Question("Mimik", "Zimmer 013 (Aufgabe 'Mimik')","Was muss man tun, damit die Musik abgespielt wird?", new String[]{"lächeln", "lachen", "smile"}, "Schau nicht so böse..."));
                 questionMap.put(6, new Question("Menschen 'scannen'", "Zimmer 013 (Aufgabe 'Menschen scannen')","Welche Eigenschaft muss der erkannte Mensch haben, damit Musik gespielt wird?", new String[]{"alt", "älter", "alte menschen", "greis"}, "Es ist möglich, dass Bilder aus dem Internet in die Kamera gezeigt werden müssen, weil du selbst die Eigenschaft nicht erfüllst..."));
-                questionMap.put(7, new Question("Informatik-Hangman", "Zimmer 010 (Aufgabe 'Informatik-Hangman')","Frage Philippe", new String[]{"flashback"}, "Dazu ist kein Tipp nötig... Streng dich etwas mehr an... ;-)"));
-                questionMap.put(8, new Question("Legend of the wild sea", "Galerie 1. Etage","Frage Philippe", new String[]{"flashback"}, "Dazu ist kein Tipp nötig... Streng dich etwas mehr an... ;-)"));
+                questionMap.put(7, new Question("Informatik-Hangman", "Zimmer 010 (Aufgabe 'Informatik-Hangman')","Spiele Hangman und errate Informatikbegriffe! Hast du alle erraten, so erhältst du das Lösungswort.", new String[]{"nohtyp"}, "Die Begriffe sind wichtige Programmstrukturen von der Programmiersprache Python."));
+                questionMap.put(8, new Question("Legend of the wild sea", "Galerie 1. Etage","Bring den Piraten auf sein Boot zurück, sodass du am Schluss das Lösungswort erhältst.", new String[]{"flashback"}, "Das schaffst du auch ohne Tipps..."));
                 questionMap.put(9, new Question("Anidex", "Vor dem Zimmer 212","Frage Philippe", new String[]{"flashback"}, "Dazu ist kein Tipp nötig... Streng dich etwas mehr an... ;-)"));
 
 

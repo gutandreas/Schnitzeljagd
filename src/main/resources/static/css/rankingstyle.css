@@ -11,8 +11,9 @@ td {
 }
 
 th {
-    background-color: #88bbff;
+    background-color: #5078A4;
     font-weight: bold;
+    color: white;
 }
 
 /* Zeilenhervorhebung bei Hover */
