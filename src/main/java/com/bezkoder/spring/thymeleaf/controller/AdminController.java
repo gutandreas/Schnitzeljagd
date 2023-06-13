@@ -38,6 +38,13 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body("Alle Daten wurden erfolgreich gelöscht.");
     }
 
+    @DeleteMapping("/admin/deleteByCode")
+    @Transactional
+    public ResponseEntity<String> perCodeLoeschen(@RequestParam String code) {
+        userRepository.deleteByCode(code);
+        return ResponseEntity.status(HttpStatus.OK).body("Nutzer mit Code " + code + " wurde erfolgreich gelöscht.");
+    }
+
     @GetMapping("/admin/changeModus")
     public ResponseEntity<String> changeModus(@RequestParam int modus) {
         alleDatenLoeschen();

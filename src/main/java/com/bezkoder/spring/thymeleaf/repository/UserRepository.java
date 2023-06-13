@@ -14,6 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   List<User> findByVornameIgnoreCase(String keyword);
   List<User> findByNachnameIgnoreCase(String keyword);
 
+  void deleteByCode(String code);
   List<User> findByCode(String code);
   boolean existsByCode(String code);
 
@@ -22,6 +23,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
   @Query("SELECT u FROM User u WHERE u.duration IS NOT NULL ORDER BY u.duration")
   List<User> getRanking();
+
+
+
 
 
 }

@@ -18,6 +18,7 @@
         <th>Postennummer</th>
         <th>Postenreihenfolge</th>
         <th>Fertig</th>
+        <th>Löschen</th>
     </tr>
     </thead>
     <tbody>
@@ -29,16 +30,12 @@
         <td th:text="${user.getPostennummer()}"></td>
         <td th:text="${user.getPostenListMixed()}"></td>
         <td th:text="${user.isFertig()}"></td>
+        <td><button onclick="deleteByCode(this)">Löschen</button></td>
     </tr>
     </tbody>
 </table>
 
 
-<label style="margin-top: 40px" for="password">Passwort:</label>
-<input id="password" maxlength="10" style="width: 300px" type="password">
-<br>
-<br>
-<br>
 <br>
 <button id="deleteButton" type="button" onclick="deleteAll()">Alle Nutzer löschen</button>
 <br>

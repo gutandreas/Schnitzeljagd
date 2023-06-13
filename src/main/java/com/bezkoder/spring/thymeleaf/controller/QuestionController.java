@@ -22,7 +22,7 @@ public class QuestionController {
 
     // 217.160.10.113:8080/qr?encryptedkey=XF98EG 1 013 Einstieg
     // 217.160.10.113:8080/qr?encryptedkey=HJ34IK 2 Bibliothek Gatter
-    // 217.160.10.113:8080/qr?encryptedkey=FQ90BM 3 010 Primzahlen
+    // 217.160.10.113:8080/qr?encryptedkey=FQ90BM 3 010 Zahleneigenschaft
     // 217.160.10.113:8080/qr?encryptedkey=KL73CS 4 010 Distanz
     // 217.160.10.113:8080/qr?encryptedkey=QH17BX 5 013 Mimik
     // 217.160.10.113:8080/qr?encryptedkey=EI45KS 6 013 Menschen scannen
