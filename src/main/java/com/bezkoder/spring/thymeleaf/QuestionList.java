@@ -7,7 +7,7 @@ public class QuestionList {
     private static final HashMap<Integer, Question> questionMap = new HashMap<>();
     private static final HashMap<String, Integer> encryptionMap = new HashMap<>();
     static {
-        addQuestionsToMap(1);
+        addQuestionsToMap(0);
         addEncryptedKeysToMap();
     }
 
@@ -16,6 +16,23 @@ public class QuestionList {
         questionMap.clear();
 
         switch (modus){
+            case 0:
+                System.out.println("Modus LZG4 gestartet");
+                questionMap.put(1, new Question("Einstieg", "Aktuelles Zimmer","Diese Schnitzeljagd findet im Fach ... statt.", new String[]{"Informatik"}, "Es beginnt mit 'I'"));
+                questionMap.put(2, new Question("Programmierung", "Haupteingang", "Was wird in die Konsole gedruckt?", new String[]{"Aprikose"}, "a=6 und b=12 sind die aktualisierten Werte"));
+                questionMap.put(3, new Question("Rechnerarchitektur", "Eingang Ergänzungsbau", "Welches Wort bringt die LED zum Leuchten?", new String[]{"jodeln"}, "Einer der Buchstaben ist 'j'"));
+                questionMap.put(4, new Question("Datenbanken", "Getränkeautomat EG", "Welches Wort liefert die SQL-Abfrage?", new String[]{"SEKTE"}, "ORDER BY ... DESC ordnet alles vom grössten zum kleinsten."));
+                questionMap.put(5, new Question("Netzwerke", "Lichthof", "Was liefern die Buchstaben der korrekten Antworten?", new String[]{"Brett"}, "Das Lösungswort besteht aus Holz"));
+                questionMap.put(6, new Question("Verschlüsselung", "022", "Wie lautet das Wort mit der Nummer der verschlüsselten Nachricht?", new String[]{"Birne"}, "Bobs Zahlen sind nicht von Bedeutung"));
+                questionMap.put(7, new Question("Künstliche Intelligenz", "Eingang Neubau", "Wie viele Situationen enthält der Baum in den Blättern?", new String[]{"160000", "160'000"}, "Es sind mehr als 100000"));
+                questionMap.put(8, new Question("Textcodierung", "Billardtisch", "Wofür steht der Binärcode in ASCII?", new String[]{"TOMATE"}, "Ketchup"));
+                questionMap.put(9, new Question("Bildcodierung", "Eingang bei Veloständer", "Für welche Farbe steht der RGB-Wert?", new String[]{"Grau"}, "Augenkrankheit *-er Star"));
+                questionMap.put(10, new Question("Cyberattacken", "Ausgang zum Innenhof", "Wie viele Versuche braucht es maximal?", new String[]{"125000", "125'000"}, "_ mal _ mal _"));
+                questionMap.put(11, new Question("Modelle und Simulationen", "Sekretariat", "Welches Prinzip wurde auf den Kreis angewandt?", new String[]{"Diskretisierung", "diskretisiert"}, "Es beginnt mit 'D'"));
+
+
+
+
             case 1:
                 System.out.println("Modus Kantifest gestartet");
                 questionMap.put(1, new Question("Einstieg", "Zimmer 013","Diese Schnitzeljagd ist von der Fachschaft des Fachs ... organisiert.", new String[]{"Informatik"}, "Es beginnt mit 'I'"));
