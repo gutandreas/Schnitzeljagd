@@ -11,7 +11,7 @@
 <h1>Abschluss der Schnitzeljagd</h1>
 <p th:if="${participant == null}">Hast du alle Posten gelöst? Gib deinen Code ein, dann wird die Zeit gestoppt.</p>
 <p th:if="${participant != null}">
-    Hast du alle Posten gelöst, <span th:text="${participant.firstName}">Vorname</span>?
+    Hast du alle Posten gelöst, <span th:text="${participant.groupName}">Gruppenname</span>?
     Dann wird jetzt die Zeit gestoppt.
 </p>
 

@@ -53,7 +53,7 @@ class WebSmokeTest {
         huntService.addQuestion(hunt.getId(), "Zweiter", "Lichthof", "Eine Zahl?", null, "42");
         huntService.activateHunt(hunt.getId());
         question = huntService.getQuestions(hunt).get(0);
-        participant = participantService.register("Anna", "Muster");
+        participant = participantService.register("Die Testgruppe", java.util.List.of("Anna", "Beat"));
     }
 
     // ---------- oeffentliche Seiten ----------
@@ -93,8 +93,29 @@ class WebSmokeTest {
     @Test
     void anmeldungLegtTeilnehmerAnUndLeitetWeiter() throws Exception {
         mockMvc.perform(post("/register").with(csrf())
-                        .param("firstName", "Beat")
-                        .param("lastName", "Beispiel"))
+                        .param("groupName", "Neue Gruppe")
+                        .param("members", "Beat"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/welcome"));
+    }
+
+    /** 1 bis 5 Namen sind erlaubt — Grenzen serverseitig geprüft, nicht nur im Formular. */
+    @Test
+    void anmeldungPrueftDieAnzahlNamenServerseitig() throws Exception {
+        mockMvc.perform(post("/register").with(csrf())
+                        .param("groupName", "Ohne Namen"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("mindestens einen Namen")));
+
+        mockMvc.perform(post("/register").with(csrf())
+                        .param("groupName", "Zu viele")
+                        .param("members", "A", "B", "C", "D", "E", "F"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Höchstens 5 Namen")));
+
+        mockMvc.perform(post("/register").with(csrf())
+                        .param("groupName", "Fünf Namen")
+                        .param("members", "A", "B", "C", "D", "E"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/welcome"));
     }
@@ -274,6 +295,16 @@ class WebSmokeTest {
         org.junit.jupiter.api.Assertions.assertFalse(
                 seite.contains("current-post\">2 (Lichthof)"),
                 "Ein noch nicht faelliger Posten darf nicht hervorgehoben sein.");
+    }
+
+    /** Admin sieht Gruppenname UND die einzelnen Mitgliedernamen, nicht nur einen davon. */
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void teilnehmerlisteZeigtGruppennameUndMitglieder() throws Exception {
+        mockMvc.perform(get("/admin/participants"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Die Testgruppe")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Anna, Beat")));
     }
 
     @Test

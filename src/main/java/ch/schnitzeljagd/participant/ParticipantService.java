@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -21,6 +22,8 @@ public class ParticipantService {
 
     private static final int CODE_LENGTH = 4;
     private static final int MAX_CODE_ATTEMPTS = 50;
+    private static final int MIN_MEMBERS = 1;
+    private static final int MAX_MEMBERS = 5;
 
     private final ParticipantRepository participantRepository;
     private final HuntService huntService;
@@ -39,7 +42,7 @@ public class ParticipantService {
     }
 
     @Transactional
-    public Participant register(String firstName, String lastName) {
+    public Participant register(String groupName, List<String> memberNames) {
         Hunt hunt = huntService.getActiveHunt()
                 .orElseThrow(() -> new IllegalStateException("Zurzeit ist keine Schnitzeljagd freigeschaltet."));
 
@@ -50,12 +53,35 @@ public class ParticipantService {
 
         Participant participant = new Participant(
                 generateCode(),
-                requireText(firstName, "Bitte gib deinen Vornamen ein."),
-                requireText(lastName, "Bitte gib deinen Nachnamen ein."),
+                requireText(groupName, "Bitte gib einen Gruppennamen ein."),
+                cleanMemberNames(memberNames),
                 hunt,
                 buildRoute(questions));
 
         return participantRepository.save(participant);
+    }
+
+    /**
+     * Entfernt leere Einträge (nicht ausgefüllte, aber mitgeschickte Namensfelder)
+     * und prüft die Anzahl. Serverseitig, weil sich das clientseitige Limit von
+     * fünf Feldern mit einem manuellen POST umgehen liesse.
+     */
+    private List<String> cleanMemberNames(List<String> memberNames) {
+        List<String> cleaned = memberNames == null
+                ? List.of()
+                : memberNames.stream()
+                        .filter(Objects::nonNull)
+                        .map(String::trim)
+                        .filter(name -> !name.isEmpty())
+                        .toList();
+
+        if (cleaned.size() < MIN_MEMBERS) {
+            throw new IllegalArgumentException("Gib mindestens einen Namen ein.");
+        }
+        if (cleaned.size() > MAX_MEMBERS) {
+            throw new IllegalArgumentException("Höchstens " + MAX_MEMBERS + " Namen sind erlaubt.");
+        }
+        return cleaned;
     }
 
     @Transactional(readOnly = true)
@@ -197,7 +223,7 @@ public class ParticipantService {
                 : " (darin " + hints + (hints == 1 ? " Minute" : " Minuten") + " Zuschlag für "
                         + (hints == 1 ? "einen Tipp" : hints + " Tipps") + ")";
 
-        return new GameResult(true, prefix + participant.getFirstName() + ", du hast die Schnitzeljagd in "
+        return new GameResult(true, prefix + participant.getGroupName() + ", du hast die Schnitzeljagd in "
                 + participant.getDurationAsFormattedString() + " gemeistert!" + zuschlag);
     }
 

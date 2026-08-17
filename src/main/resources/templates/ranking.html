@@ -18,16 +18,14 @@
     <thead>
     <tr>
         <th>Rang</th>
-        <th>Vorname</th>
-        <th>Name</th>
+        <th>Gruppe</th>
         <th>Zeit</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="participant, rowStat : ${ranking}">
         <td th:text="${rowStat.count}">1</td>
-        <td th:text="${participant.firstName}">Vorname</td>
-        <td th:text="${participant.lastName}">Name</td>
+        <td th:text="${participant.groupName}">Gruppenname</td>
         <td th:text="${participant.durationAsFormattedString}">0:00:00</td>
     </tr>
     </tbody>

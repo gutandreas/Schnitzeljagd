@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -71,7 +73,7 @@ class SchnitzeljagdApplicationTests {
 		huntService.addQuestion(hunt.getId(), "Zweiter", "Lichthof", "Nenne eine Zahl.", null, "42; zweiundvierzig");
 		huntService.activateHunt(hunt.getId());
 
-		Participant participant = participantService.register("Anna", "Muster");
+		Participant participant = participantService.register("Die Gruppe", List.of("Anna", "Beat"));
 		assertEquals(2, participant.getTotal());
 
 		// Falscher Posten: der zweite Posten wird gescannt, obwohl der erste dran ist.
@@ -100,7 +102,7 @@ class SchnitzeljagdApplicationTests {
 		huntService.addQuestion(hunt.getId(), "Einstieg", "Zimmer 1", "Eine Frage?", "Der Tipp", "antwort");
 		huntService.activateHunt(hunt.getId());
 
-		Participant participant = participantService.register("Tim", "Tipp");
+		Participant participant = participantService.register("Tippgruppe", List.of("Tim"));
 		String token = huntService.getQuestion(participant.getCurrentQuestionId()).getToken();
 
 		assertTrue(participantService.requestHint(participant.getCode(), token).success());
@@ -124,7 +126,7 @@ class SchnitzeljagdApplicationTests {
 		huntService.addQuestion(hunt.getId(), "Einstieg", "Zimmer 1", "Eine Frage?", "Der Tipp", "antwort");
 		huntService.activateHunt(hunt.getId());
 
-		Participant participant = participantService.register("Ohne", "Tipp");
+		Participant participant = participantService.register("Ohne Tipp", List.of("Beat"));
 		String token = huntService.getQuestion(participant.getCurrentQuestionId()).getToken();
 		participantService.checkAnswer(participant.getCode(), token, "antwort");
 		participantService.finish(participant.getCode());

@@ -39,11 +39,15 @@ public class Participant {
     @Column(nullable = false, unique = true, length = 8)
     private String code;
 
-    @Column(nullable = false, length = 50)
-    private String firstName;
+    @Column(nullable = false, length = 100)
+    private String groupName;
 
-    @Column(nullable = false, length = 50)
-    private String lastName;
+    /** Die Namen der Gruppenmitglieder, 1 bis 5, in Eingabereihenfolge. */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "participant_members", joinColumns = @JoinColumn(name = "participant_id"))
+    @OrderColumn(name = "step")
+    @Column(name = "member_name", length = 50)
+    private List<String> memberNames = new ArrayList<>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "hunt_id", nullable = false)
@@ -80,10 +84,10 @@ public class Participant {
         // für JPA
     }
 
-    public Participant(String code, String firstName, String lastName, Hunt hunt, List<Long> route) {
+    public Participant(String code, String groupName, List<String> memberNames, Hunt hunt, List<Long> route) {
         this.code = code;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.groupName = groupName;
+        this.memberNames = new ArrayList<>(memberNames);
         this.hunt = hunt;
         this.route = new ArrayList<>(route);
         this.solved = 0;
@@ -165,12 +169,17 @@ public class Participant {
         return code;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public List<String> getMemberNames() {
+        return memberNames;
+    }
+
+    /** Die Mitgliedernamen als eine Zeile — für die Admin-Tabelle. */
+    public String getMemberNamesAsLine() {
+        return String.join(", ", memberNames);
     }
 
     public Hunt getHunt() {
@@ -212,7 +221,7 @@ public class Participant {
 
     @Override
     public String toString() {
-        return "Participant[id=" + id + ", code=" + code + ", name=" + firstName + " " + lastName
+        return "Participant[id=" + id + ", code=" + code + ", group=" + groupName
                 + ", solved=" + solved + "/" + route.size() + "]";
     }
 }

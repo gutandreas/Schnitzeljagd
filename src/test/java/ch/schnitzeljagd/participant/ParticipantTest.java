@@ -19,7 +19,7 @@ class ParticipantTest {
     @Test
     void elapsedSecondsBeruecksichtigtTippzuschlagUndFriertNachAbschlussEin() {
         Hunt hunt = new Hunt("Testjagd");
-        Participant participant = new Participant("ABCD", "Anna", "Muster", hunt, List.of(1L, 2L));
+        Participant participant = new Participant("ABCD", "Die Testgruppe", List.of("Anna", "Beat"), hunt, List.of(1L, 2L));
         LocalDateTime start = participant.getStart();
 
         assertEquals(125, participant.getElapsedSeconds(start.plusSeconds(125)));

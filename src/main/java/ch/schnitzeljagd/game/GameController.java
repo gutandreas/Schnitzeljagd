@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,12 +54,12 @@ public class GameController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam String firstName,
-                           @RequestParam String lastName,
+    public String register(@RequestParam String groupName,
+                           @RequestParam(required = false) List<String> members,
                            HttpServletResponse response,
                            Model model) {
         try {
-            Participant participant = participantService.register(firstName, lastName);
+            Participant participant = participantService.register(groupName, members);
             writeCodeCookie(response, participant.getCode());
             return "redirect:/welcome";
         } catch (RuntimeException e) {

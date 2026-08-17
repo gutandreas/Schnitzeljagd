@@ -40,7 +40,7 @@
     </div>
 
     <p th:if="${participant != null}" style="font-size: 18px;">
-        Angemeldet als <span th:text="${participant.firstName}">Vorname</span>
+        Angemeldet als <span th:text="${participant.groupName}">Gruppenname</span>
         (Code <span th:text="${participant.code}">CODE</span>)
         &nbsp;<a href="#" onclick="showCodeField(); return false;" style="font-size: 16px;">nicht du?</a>
     </p>

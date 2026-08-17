@@ -25,8 +25,8 @@
     <table>
         <thead>
         <tr>
-            <th>Vorname</th>
-            <th>Name</th>
+            <th>Gruppe</th>
+            <th>Mitglieder</th>
             <th>Code</th>
             <th>Jagd</th>
             <th>Start</th>
@@ -39,8 +39,8 @@
         </thead>
         <tbody>
         <tr th:each="participant : ${participants}">
-            <td th:text="${participant.firstName}">Vorname</td>
-            <td th:text="${participant.lastName}">Name</td>
+            <td th:text="${participant.groupName}">Gruppenname</td>
+            <td th:text="${participant.memberNamesAsLine}">Namen</td>
             <td><code th:text="${participant.code}">CODE</code></td>
             <td th:text="${participant.hunt.name}">Jagd</td>
             <td th:text="${#temporals.format(participant.start, 'dd.MM.yyyy HH:mm')}">Start</td>

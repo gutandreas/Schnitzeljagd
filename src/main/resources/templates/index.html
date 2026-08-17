@@ -3,6 +3,7 @@
 <head>
     <title>Schnitzeljagd</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
+    <script type="text/javascript" th:src="@{/scripts/registerScript.js}"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -19,11 +20,36 @@
 </div>
 
 <form th:if="${hunt != null}" th:action="@{/register}" method="post">
-    <label for="firstName">Vorname:</label>
-    <input type="text" id="firstName" name="firstName" required><br><br>
+    <label for="groupName">Gruppenname:</label>
+    <input type="text" id="groupName" name="groupName" required><br><br>
 
-    <label for="lastName">Nachname:</label>
-    <input type="text" id="lastName" name="lastName" required><br><br>
+    <!-- Nur das erste Namensfeld ist aktiv. Die übrigen sind "disabled" und
+         zählen darum nicht zur Anmeldung mit, solange sie nicht über "Name
+         hinzufügen" eingeblendet wurden (siehe registerScript.js). Serverseitig
+         geprüft wird die 1-5-Grenze trotzdem — das Absperren hier ist nur Komfort. -->
+    <div id="memberField1">
+        <label for="member1">Name 1:</label>
+        <input type="text" id="member1" name="members" required>
+    </div>
+    <div id="memberField2" class="member-field-hidden">
+        <label for="member2">Name 2:</label>
+        <input type="text" id="member2" name="members" disabled>
+    </div>
+    <div id="memberField3" class="member-field-hidden">
+        <label for="member3">Name 3:</label>
+        <input type="text" id="member3" name="members" disabled>
+    </div>
+    <div id="memberField4" class="member-field-hidden">
+        <label for="member4">Name 4:</label>
+        <input type="text" id="member4" name="members" disabled>
+    </div>
+    <div id="memberField5" class="member-field-hidden">
+        <label for="member5">Name 5:</label>
+        <input type="text" id="member5" name="members" disabled>
+    </div>
+
+    <button type="button" id="addMemberButton">Name hinzufügen</button>
+    <br><br>
 
     <button type="submit" id="register-button">Anmelden</button>
 </form>

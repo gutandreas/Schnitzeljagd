@@ -71,6 +71,30 @@ button[type=submit] {
     transition: background-color 0.3s ease;
 }
 
+.member-field-hidden {
+    display: none;
+}
+
+#addMemberButton {
+    background-color: #5078A4;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addMemberButton:hover {
+    background-color: #6088b4;
+}
+
+#addMemberButton:disabled {
+    background-color: #aaaaaa;
+    cursor: default;
+}
+
 #register-button {
     background-color: #5078A4;
     color: white;
