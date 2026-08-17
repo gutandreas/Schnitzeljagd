@@ -115,7 +115,7 @@ public class GameController {
             return "wrong-post";
         }
 
-        addQuestionAttributes(model, question.get(), code, null);
+        addQuestionAttributes(model, question.get(), code, null, false);
         return "questions";
     }
 
@@ -138,7 +138,9 @@ public class GameController {
             writeCodeCookie(response, code.trim().toUpperCase());
         }
 
-        addQuestionAttributes(model, question.get(), code, result);
+        // Nur eine richtige Antwort blendet Frage und Formular aus — ein
+        // erfolgreich angeforderter Tipp (unten) tut das ausdruecklich nicht.
+        addQuestionAttributes(model, question.get(), code, result, result.success());
         return "questions";
     }
 
@@ -159,7 +161,7 @@ public class GameController {
             writeCodeCookie(response, code.trim().toUpperCase());
         }
 
-        addQuestionAttributes(model, question.get(), code, result);
+        addQuestionAttributes(model, question.get(), code, result, false);
         return "questions";
     }
 
@@ -193,11 +195,14 @@ public class GameController {
     }
 
     /** Füllt die Fragenseite — inklusive Fortschritt, sofern der Code bekannt ist. */
-    private void addQuestionAttributes(Model model, Question question, String code, ParticipantService.GameResult result) {
+    private void addQuestionAttributes(Model model, Question question, String code,
+                                       ParticipantService.GameResult result, boolean answeredCorrectly) {
         Hunt hunt = question.getHunt();
         model.addAttribute("question", question);
         model.addAttribute("code", code == null ? "" : code);
         model.addAttribute("result", result);
+        // Steuert, ob Frage und Antwortformular durch ein "Bravo!" ersetzt werden.
+        model.addAttribute("answeredCorrectly", answeredCorrectly);
 
         Optional<Participant> participant = participantService.findByCode(code);
         model.addAttribute("participant", participant.orElse(null));

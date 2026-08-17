@@ -8,7 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1 id="question_number">Aufgabe <span th:text="${question.title}">Titel</span></h1>
+<!-- Nach einer richtig beantworteten Frage verschwinden Frage und Formular
+     zugunsten einer grossen Erfolgsmeldung — ein erfolgreich angeforderter
+     Tipp loest das ausdruecklich NICHT aus (answeredCorrectly bleibt false). -->
+<h1 id="question_number" th:unless="${answeredCorrectly}">Aufgabe <span th:text="${question.title}">Titel</span></h1>
+<h1 th:if="${answeredCorrectly}" style="color: #2e7d32;">Bravo!</h1>
 
 <!-- Startwert vom Server, danach zaehlt der Client selbst weiter (siehe
      questionScript.js). Ein neuer, korrigierter Wert kommt erst mit dem naechsten
@@ -23,42 +27,44 @@
     Posten <span th:text="${participant.solved + 1}">1</span> von <span th:text="${participant.total}">10</span>
 </p>
 
-<p th:text="${question.text}">Fragetext</p>
+<div th:unless="${answeredCorrectly}">
+    <p th:text="${question.text}">Fragetext</p>
 
-<form th:action="@{'/q/' + ${question.token} + '/answer'}" method="post">
-    <label for="answer">Antwort:</label>
-    <input type="text" id="answer" name="answer" autocomplete="off" required>
+    <form th:action="@{'/q/' + ${question.token} + '/answer'}" method="post">
+        <label for="answer">Antwort:</label>
+        <input type="text" id="answer" name="answer" autocomplete="off" required>
 
-    <!-- Ist der Code aus dem Cookie bekannt, bleibt das Feld verborgen: Es wuerde an
-         jedem Posten dieselbe Eingabe verlangen. Sichtbar wird es nur, wenn das Cookie
-         fehlt (z.B. weil der QR-Scanner einen anderen Browser oeffnet) oder wenn
-         jemand bewusst einen anderen Code eintippen will. -->
-    <div id="code_row" th:style="${participant != null} ? 'display: none;' : ''">
-        <label for="code">Code:</label>
-        <input type="text" id="code" name="code" maxlength="8" th:value="${code}"
-               th:required="${participant == null}">
-    </div>
+        <!-- Ist der Code aus dem Cookie bekannt, bleibt das Feld verborgen: Es wuerde an
+             jedem Posten dieselbe Eingabe verlangen. Sichtbar wird es nur, wenn das Cookie
+             fehlt (z.B. weil der QR-Scanner einen anderen Browser oeffnet) oder wenn
+             jemand bewusst einen anderen Code eintippen will. -->
+        <div id="code_row" th:style="${participant != null} ? 'display: none;' : ''">
+            <label for="code">Code:</label>
+            <input type="text" id="code" name="code" maxlength="8" th:value="${code}"
+                   th:required="${participant == null}">
+        </div>
 
-    <p th:if="${participant != null}" style="font-size: 18px;">
-        Angemeldet als <span th:text="${participant.groupName}">Gruppenname</span>
-        (Code <span th:text="${participant.code}">CODE</span>)
-        &nbsp;<a href="#" onclick="showCodeField(); return false;" style="font-size: 16px;">nicht du?</a>
-    </p>
+        <p th:if="${participant != null}" style="font-size: 18px;">
+            Angemeldet als <span th:text="${participant.groupName}">Gruppenname</span>
+            (Code <span th:text="${participant.code}">CODE</span>)
+            &nbsp;<a href="#" onclick="showCodeField(); return false;" style="font-size: 16px;">nicht du?</a>
+        </p>
 
-    <br>
-    <button type="submit" id="sendButton">Antwort senden</button>
+        <br>
+        <button type="submit" id="sendButton">Antwort senden</button>
 
-    <!-- Der Tipp-Knopf gehoert in dasselbe Formular, damit der Code mitgeschickt
-         wird. formnovalidate, weil fuer einen Tipp keine Antwort noetig ist. -->
-    <button type="submit" id="hintButton" formnovalidate
-            th:if="${hintAvailable and !hintUnlocked}"
-            th:formaction="@{'/q/' + ${question.token} + '/hint'}"
-            onclick="return confirm('Der Tipp kostet dich eine Minute. Trotzdem anzeigen?');">
-        Tipp anfordern (+1 Minute)
-    </button>
-</form>
+        <!-- Der Tipp-Knopf gehoert in dasselbe Formular, damit der Code mitgeschickt
+             wird. formnovalidate, weil fuer einen Tipp keine Antwort noetig ist. -->
+        <button type="submit" id="hintButton" formnovalidate
+                th:if="${hintAvailable and !hintUnlocked}"
+                th:formaction="@{'/q/' + ${question.token} + '/hint'}"
+                onclick="return confirm('Der Tipp kostet dich eine Minute. Trotzdem anzeigen?');">
+            Tipp anfordern (+1 Minute)
+        </button>
+    </form>
 
-<p id="hint_label" th:if="${hintText != null}" th:text="'Tipp: ' + ${hintText}">Tipp</p>
+    <p id="hint_label" th:if="${hintText != null}" th:text="'Tipp: ' + ${hintText}">Tipp</p>
+</div>
 
 <p th:if="${result != null}" th:text="${result.message}"
    th:style="${result.success} ? 'color: #2e7d32;' : 'color: #b03030;'">Rückmeldung</p>

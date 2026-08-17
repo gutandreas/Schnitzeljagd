@@ -195,6 +195,54 @@ class WebSmokeTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("richtig")));
     }
 
+    /** Bei einer richtigen Antwort verschwinden Frage und Formular zugunsten von "Bravo!". */
+    @Test
+    void richtigeAntwortZeigtBravoUndVersstecktFrageUndFormular() throws Exception {
+        String seite = mockMvc.perform(post("/q/" + question.getToken() + "/answer").with(csrf())
+                        .param("code", participant.getCode())
+                        .param("answer", "Informatik"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        org.junit.jupiter.api.Assertions.assertTrue(seite.contains(">Bravo!<"), "Bravo! fehlt nach richtiger Antwort.");
+        org.junit.jupiter.api.Assertions.assertFalse(seite.contains("Welches Fach?"),
+                "Die Frage darf nach einer richtigen Antwort nicht mehr zu sehen sein.");
+        org.junit.jupiter.api.Assertions.assertFalse(seite.contains("id=\"sendButton\""),
+                "Das Antwortformular darf nach einer richtigen Antwort nicht mehr zu sehen sein.");
+    }
+
+    /** Eine falsche Antwort zeigt kein "Bravo!" — Frage und Formular bleiben, damit erneut versucht werden kann. */
+    @Test
+    void falscheAntwortZeigtKeinBravoUndBehaeltFrageUndFormular() throws Exception {
+        String seite = mockMvc.perform(post("/q/" + question.getToken() + "/answer").with(csrf())
+                        .param("code", participant.getCode())
+                        .param("answer", "Falsch"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        org.junit.jupiter.api.Assertions.assertFalse(seite.contains(">Bravo!<"), "Bravo! darf bei falscher Antwort nicht erscheinen.");
+        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("Welches Fach?"),
+                "Die Frage muss bei falscher Antwort weiter sichtbar sein.");
+        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("id=\"sendButton\""),
+                "Das Antwortformular muss bei falscher Antwort weiter sichtbar sein.");
+    }
+
+    /** Ein erfolgreich angeforderter Tipp ist kein "Bravo!" — die Frage bleibt sichtbar, um sie zu beantworten. */
+    @Test
+    void erfolgreicherTippZeigtKeinBravoUndBehaeltFrageUndFormular() throws Exception {
+        String seite = mockMvc.perform(post("/q/" + question.getToken() + "/hint").with(csrf())
+                        .param("code", participant.getCode()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        org.junit.jupiter.api.Assertions.assertFalse(seite.contains(">Bravo!<"),
+                "Ein erfolgreicher Tipp ist keine richtige Antwort und darf kein Bravo! zeigen.");
+        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("Welches Fach?"),
+                "Die Frage muss nach einem Tipp weiter sichtbar sein.");
+        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("id=\"sendButton\""),
+                "Das Antwortformular muss nach einem Tipp weiter sichtbar sein.");
+    }
+
     /** Der Tipptext darf erst in der Seite auftauchen, wenn er angefordert wurde. */
     @Test
     void tippStehtErstNachDemAnfordernInDerSeite() throws Exception {
@@ -282,19 +330,32 @@ class WebSmokeTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
+        // Auf die eigene Zeile eingrenzen: andere Tests dieser Klasse legen in
+        // derselben Datenbank eigene Teilnehmende an, die Seite zeigt also alle.
+        String zeile = extractParticipantRow(seite, participant.getCode());
+
         // Beide Posten der Route muessen mit ihrer Nummer und ihrem Ort auftauchen.
-        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("1 (Zimmer 1)"),
+        org.junit.jupiter.api.Assertions.assertTrue(zeile.contains("1 (Zimmer 1)"),
                 "Erster Posten (Nummer + Ort) fehlt in der Reihenfolge.");
-        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("2 (Lichthof)"),
+        org.junit.jupiter.api.Assertions.assertTrue(zeile.contains("2 (Lichthof)"),
                 "Zweiter Posten (Nummer + Ort) fehlt in der Reihenfolge.");
 
         // Der aktuelle Posten (Position 1, noch nichts geloest) ist hervorgehoben.
         org.junit.jupiter.api.Assertions.assertTrue(
-                seite.contains("current-post\">1 (Zimmer 1)"),
+                zeile.contains("current-post\">1 (Zimmer 1)"),
                 "Der aktuelle Posten muss als current-post hervorgehoben sein.");
         org.junit.jupiter.api.Assertions.assertFalse(
-                seite.contains("current-post\">2 (Lichthof)"),
+                zeile.contains("current-post\">2 (Lichthof)"),
                 "Ein noch nicht faelliger Posten darf nicht hervorgehoben sein.");
+    }
+
+    /** Grenzt das HTML einer Tabellenzeile ein, erkannt am darin enthaltenen Teilnehmer-Code. */
+    private String extractParticipantRow(String html, String code) {
+        int codeIndex = html.indexOf(code);
+        org.junit.jupiter.api.Assertions.assertTrue(codeIndex >= 0, "Code " + code + " taucht nicht in der Seite auf.");
+        int rowStart = html.lastIndexOf("<tr", codeIndex);
+        int rowEnd = html.indexOf("</tr>", codeIndex);
+        return html.substring(rowStart, rowEnd);
     }
 
     /** Admin sieht Gruppenname UND die einzelnen Mitgliedernamen, nicht nur einen davon. */
