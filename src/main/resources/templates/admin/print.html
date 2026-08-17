@@ -40,5 +40,14 @@
     <img th:src="@{'/admin/qr/' + ${question.token} + '.png'}" alt="QR-Code">
     <p class="hint" th:text="${baseUrl + '/q/' + question.token}">URL</p>
 </div>
+
+<!-- Letzte Seite: das Ziel. Der Abschluss läuft wie der Start nur über einen
+     Scan — in keiner Teilnehmerseite steht dafür ein anklickbarer Link. -->
+<div class="qr-page">
+    <h2>Ziel</h2>
+    <p class="place">Rückgabe zum Ausgangspunkt — hier abschliessen</p>
+    <img th:src="@{/admin/qr-finish.png}" alt="QR-Code Abschluss">
+    <p class="hint" th:text="${baseUrl + '/checkout'}">URL</p>
+</div>
 </body>
 </html>

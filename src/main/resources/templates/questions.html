@@ -63,8 +63,10 @@
 <p th:if="${result != null}" th:text="${result.message}"
    th:style="${result.success} ? 'color: #2e7d32;' : 'color: #b03030;'">Rückmeldung</p>
 
+<!-- Bewusst kein Link zu /checkout: der Abschluss läuft wie der Start nur über
+     das Scannen des Ziel-QR-Codes, nicht über eine anklickbare Adresse. -->
 <p th:if="${everythingSolved}">
-    <a th:href="@{/checkout}">Jetzt abschliessen und Zeit stoppen</a>
+    Geschafft! Suche den Ziel-QR-Code, um die Schnitzeljagd abzuschliessen und deine Zeit zu stoppen.
 </p>
 </body>
 </html>

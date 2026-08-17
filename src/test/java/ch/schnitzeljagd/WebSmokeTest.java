@@ -65,6 +65,31 @@ class WebSmokeTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Smoke-Test-Jagd")));
     }
 
+    /**
+     * Der Abschluss läuft wie der Start nur über das Scannen eines QR-Codes —
+     * keine Teilnehmerseite darf einen anklickbaren Weg dorthin anbieten.
+     */
+    @Test
+    void keineSeiteVerlinktDenAbschlussDirekt() throws Exception {
+        String startseite = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        org.junit.jupiter.api.Assertions.assertFalse(startseite.contains("href=\"/checkout\""),
+                "Die Startseite darf /checkout nicht verlinken.");
+
+        Question zweiterPosten = huntService.getQuestions(hunt).get(1);
+        participantService.checkAnswer(participant.getCode(), question.getToken(), "Informatik");
+        participantService.checkAnswer(participant.getCode(), zweiterPosten.getToken(), "42");
+
+        String letzterPosten = mockMvc.perform(get("/q/" + zweiterPosten.getToken())
+                        .cookie(new Cookie("sjcode", participant.getCode())))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Ziel-QR-Code")))
+                .andReturn().getResponse().getContentAsString();
+        org.junit.jupiter.api.Assertions.assertFalse(letzterPosten.contains("href=\"/checkout\""),
+                "Die Postenseite darf /checkout nach dem letzten Posten nicht verlinken.");
+    }
+
     @Test
     void anmeldungLegtTeilnehmerAnUndLeitetWeiter() throws Exception {
         mockMvc.perform(post("/register").with(csrf())
@@ -193,6 +218,9 @@ class WebSmokeTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.IMAGE_PNG));
         mockMvc.perform(get("/admin/qr-start.png"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.IMAGE_PNG));
+        mockMvc.perform(get("/admin/qr-finish.png"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.IMAGE_PNG));
     }

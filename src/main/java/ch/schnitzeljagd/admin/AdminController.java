@@ -198,6 +198,16 @@ public class AdminController {
         return pngResponse(qrGenerator.toPngBytes(normalizedBaseUrl() + "/", size));
     }
 
+    /**
+     * QR-Code für den Zielort. Der Abschluss läuft wie der Start nur über einen
+     * Scan — /checkout wird bewusst in keiner Teilnehmerseite verlinkt, damit
+     * er sich nicht ohne den physischen Weg zum Ziel erreichen lässt.
+     */
+    @GetMapping("/qr-finish.png")
+    public ResponseEntity<byte[]> finishQrImage(@RequestParam(defaultValue = "400") int size) {
+        return pngResponse(qrGenerator.toPngBytes(normalizedBaseUrl() + "/checkout", size));
+    }
+
     private ResponseEntity<byte[]> pngResponse(byte[] png) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
