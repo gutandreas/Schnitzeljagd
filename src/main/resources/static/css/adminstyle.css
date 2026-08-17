@@ -154,6 +154,14 @@ button.secondary:hover, .button.secondary:hover {
     background-color: #999;
 }
 
+/* Nur ein Symbol statt Text — quadratisch, damit mehrere Aktionen in einer
+   Tabellenzeile nebeneinander Platz haben, statt in die naechste Zeile umzubrechen. */
+.icon-button {
+    padding: 6px 9px;
+    font-size: 16px;
+    line-height: 1;
+}
+
 .inline {
     display: inline;
 }

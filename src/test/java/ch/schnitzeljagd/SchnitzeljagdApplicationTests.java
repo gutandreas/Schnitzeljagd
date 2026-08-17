@@ -47,16 +47,30 @@ class SchnitzeljagdApplicationTests {
 	 */
 	@Test
 	void jedeImportierteJagdHatIhreEigenenFragen() {
-		Hunt lzg4 = findeJagd("LZG4");
-		Hunt kantifest = findeJagd("Kantifest");
+		Hunt gym2 = findeJagd("GYM2");
+		Hunt ef = findeJagd("EF");
 
-		assertEquals(11, huntService.getQuestions(lzg4).size());
-		assertEquals(9, huntService.getQuestions(kantifest).size());
+		assertEquals(11, huntService.getQuestions(gym2).size());
+		assertEquals(10, huntService.getQuestions(ef).size());
 
-		String einstiegLzg4 = huntService.getQuestions(lzg4).get(0).getText();
-		String einstiegKantifest = huntService.getQuestions(kantifest).get(0).getText();
-		assertTrue(einstiegLzg4.contains("findet im Fach"), "LZG4 zeigt fremde Fragen: " + einstiegLzg4);
-		assertTrue(einstiegKantifest.contains("Fachschaft"), "Kantifest zeigt fremde Fragen: " + einstiegKantifest);
+		String einstiegGym2 = huntService.getQuestions(gym2).get(0).getText();
+		String einstiegEf = huntService.getQuestions(ef).get(0).getText();
+		assertTrue(einstiegGym2.contains("findet im Fach"), "GYM2 zeigt fremde Fragen: " + einstiegGym2);
+		assertTrue(einstiegEf.contains("Schulfach"), "EF zeigt fremde Fragen: " + einstiegEf);
+	}
+
+	/**
+	 * Keine feste Gesamtanzahl prüfen — andere Tests dieser Klasse legen selbst
+	 * Jagden an, und die Reihenfolge der Testmethoden ist nicht garantiert.
+	 * Stattdessen nur: die entfernten Namen tauchen nicht mehr auf.
+	 */
+	@Test
+	void alteJagdenAusserGym2UndEfWerdenNichtMehrImportiert() {
+		List<String> namen = huntService.getHunts().stream().map(Hunt::getName).toList();
+		assertTrue(namen.contains("GYM2"));
+		assertTrue(namen.contains("EF"));
+		assertFalse(namen.contains("LZG4"), "LZG4 sollte zu GYM2 umbenannt worden sein.");
+		assertFalse(namen.contains("Kantifest"), "Kantifest sollte nicht mehr importiert werden.");
 	}
 
 	private Hunt findeJagd(String name) {
