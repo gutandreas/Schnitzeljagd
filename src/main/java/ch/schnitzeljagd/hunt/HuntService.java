@@ -118,12 +118,28 @@ public class HuntService {
 
     @Transactional
     public Question addQuestion(Long huntId, String title, String place, String text, String hint, String answerLine) {
+        return addQuestion(huntId, title, place, text, hint, answerLine, generateToken());
+    }
+
+    /**
+     * Für den Import der fest verankerten Altfragen (siehe {@link LegacySeedData}):
+     * der Token wird vorgegeben statt zufällig erzeugt, damit ein Reseed — egal ob
+     * nach einem lokalen Reset oder beim allerersten Start auf dem Server — immer
+     * dieselben QR-Codes liefert. Sonst würden bereits ausgedruckte Postenzettel
+     * ins Leere zeigen. Bewusst paketprivat: nur der Seed-Import darf einen Token
+     * vorschreiben, der Adminbereich erzeugt für neue Posten weiterhin zufällige.
+     */
+    @Transactional
+    Question addQuestion(Long huntId, String title, String place, String text, String hint, String answerLine, String token) {
+        if (questionRepository.existsByToken(token)) {
+            throw new IllegalStateException("Token '" + token + "' ist bereits vergeben.");
+        }
         Hunt hunt = getHunt(huntId);
         int position = (int) questionRepository.countByHunt(hunt) + 1;
         Question question = new Question(
                 hunt,
                 position,
-                generateToken(),
+                token,
                 requireText(title, "Der Posten braucht einen Titel."),
                 requireText(place, "Der Posten braucht einen Ort."),
                 requireText(text, "Der Posten braucht eine Frage."),

@@ -2,6 +2,8 @@ package ch.schnitzeljagd;
 
 import ch.schnitzeljagd.hunt.Hunt;
 import ch.schnitzeljagd.hunt.HuntService;
+import ch.schnitzeljagd.hunt.LegacySeedData;
+import ch.schnitzeljagd.hunt.Question;
 import ch.schnitzeljagd.participant.Participant;
 import ch.schnitzeljagd.participant.ParticipantService;
 import org.junit.jupiter.api.Test;
@@ -71,6 +73,27 @@ class SchnitzeljagdApplicationTests {
 		assertTrue(namen.contains("EF"));
 		assertFalse(namen.contains("LZG4"), "LZG4 sollte zu GYM2 umbenannt worden sein.");
 		assertFalse(namen.contains("Kantifest"), "Kantifest sollte nicht mehr importiert werden.");
+	}
+
+	/**
+	 * Kernstueck der Stabilitaetsgarantie: die importierten Posten muessen exakt
+	 * die fest verankerten Codes aus LegacySeedData tragen, nicht zufaellig
+	 * erzeugte. Sonst wuerden ausgedruckte QR-Zettel nach einem Reset oder auf
+	 * einem frisch gestarteten Server ins Leere zeigen.
+	 */
+	@Test
+	void importierteFragenHabenDieFestVerankertenCodes() {
+		Hunt gym2 = findeJagd("GYM2");
+		Hunt ef = findeJagd("EF");
+
+		for (Question q : huntService.getQuestions(gym2)) {
+			assertEquals(LegacySeedData.getTokenForQuestion(0, q.getPosition()), q.getToken(),
+					"GYM2-Posten " + q.getPosition() + " hat nicht den fest verankerten Code.");
+		}
+		for (Question q : huntService.getQuestions(ef)) {
+			assertEquals(LegacySeedData.getTokenForQuestion(1, q.getPosition()), q.getToken(),
+					"EF-Posten " + q.getPosition() + " hat nicht den fest verankerten Code.");
+		}
 	}
 
 	private Hunt findeJagd(String name) {

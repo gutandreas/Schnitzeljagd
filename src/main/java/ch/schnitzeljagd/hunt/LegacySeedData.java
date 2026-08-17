@@ -23,6 +23,28 @@ public class LegacySeedData {
     public record SeedQuestion(String title, String place, String text, String[] answers, String hint) {
     }
 
+    /**
+     * Feste QR-Codes fuer die importierten Posten, unabhaengig vom Zufall erzeugt
+     * und damit stabil ueber jeden Neu-Import hinweg (egal ob nach einem lokalen
+     * Reset oder beim ersten Start auf einem anderen Server) — sonst wuerden
+     * bereits ausgedruckte Postenzettel nach einem Reseed ins Leere zeigen.
+     * Einmal gedruckt, NIE mehr aendern.
+     */
+    private static final String[] GYM2_TOKENS = {
+            "VJMY37", "KJLK67", "RF5P3K", "K99352", "8W2HUF",
+            "EFSKED", "UEAQFE", "LXMD4H", "59LGA6", "CXDCJN", "SZTTED"
+    };
+    private static final String[] EF_TOKENS = {
+            "8CX6K9", "MGC4N6", "3PZ9UU", "NXT3TU", "BJ643W",
+            "4JKZ7S", "EU89GG", "9KL9YX", "KWTZK2", "DPN52E"
+    };
+
+    /** Der feste Code fuer Frage {@code number} (1-basiert) im gegebenen Modus. */
+    public static String getTokenForQuestion(int modus, int number) {
+        String[] tokens = modus == 0 ? GYM2_TOKENS : EF_TOKENS;
+        return tokens[number - 1];
+    }
+
     public static void addQuestionsToMap(int modus){
 
         questionMap.clear();

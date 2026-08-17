@@ -45,13 +45,15 @@ class LegacySeedImporter implements ApplicationRunner {
 
             for (int number = 1; number <= total; number++) {
                 LegacySeedData.SeedQuestion seed = LegacySeedData.getQuestionByNumber(number);
+                // Fester statt zufaellig erzeugter Code — siehe LegacySeedData.getTokenForQuestion.
                 huntService.addQuestion(
                         hunt.getId(),
                         seed.title(),
                         seed.place(),
                         seed.text(),
                         seed.hint(),
-                        String.join("; ", seed.answers()));
+                        String.join("; ", seed.answers()),
+                        LegacySeedData.getTokenForQuestion(modus, number));
             }
             log.info("Jagd '{}' mit {} Posten importiert.", hunt.getName(), total);
         }
