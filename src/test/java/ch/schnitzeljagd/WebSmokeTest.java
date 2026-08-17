@@ -119,6 +119,45 @@ class WebSmokeTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Welches Fach?")));
     }
 
+    /**
+     * Wer den falschen Posten scannt, soll das sofort beim Laden der Seite
+     * sehen — nicht erst nach dem Abschicken einer Antwort. Weder die
+     * gescannte noch die eigentlich fällige Frage darf dabei zu lesen sein.
+     */
+    @Test
+    void scannenDesFalschenPostensZeigtSofortDenHinweis() throws Exception {
+        Question zweiterPosten = huntService.getQuestions(hunt).get(1);
+
+        mockMvc.perform(get("/q/" + zweiterPosten.getToken())
+                        .cookie(new Cookie("sjcode", participant.getCode())))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Das ist nicht dein Posten")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Zimmer 1")))
+                .andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("Welches Fach?"))))
+                .andExpect(content().string(org.hamcrest.Matchers.not(org.hamcrest.Matchers.containsString("Eine Zahl?"))));
+    }
+
+    /** Nach dem letzten Posten soll das Scannen alter Codes auf das Ziel verweisen, nicht auf einen falschen Posten. */
+    @Test
+    void nachAllenPostenVerweistDasScannenAufsZiel() throws Exception {
+        Question zweiterPosten = huntService.getQuestions(hunt).get(1);
+        participantService.checkAnswer(participant.getCode(), question.getToken(), "Informatik");
+        participantService.checkAnswer(participant.getCode(), zweiterPosten.getToken(), "42");
+
+        mockMvc.perform(get("/q/" + question.getToken()).cookie(new Cookie("sjcode", participant.getCode())))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("bereits alle Posten gelöst")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Ziel-QR-Code")));
+    }
+
+    /** Ohne bekannten Code (z.B. anderer Browser) lässt sich nicht prüfen, wer scannt — die Frage wird trotzdem gezeigt. */
+    @Test
+    void ohneBekanntenCodeWirdDiePostenseiteTrotzdemGezeigt() throws Exception {
+        mockMvc.perform(get("/q/" + question.getToken()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Welches Fach?")));
+    }
+
     @Test
     void unbekannterPostenZeigtHinweisStattFehler() throws Exception {
         mockMvc.perform(get("/q/GIBTSNICHT"))

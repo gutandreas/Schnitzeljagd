@@ -64,6 +64,44 @@ public class ParticipantService {
     }
 
     /**
+     * Prüft, ob der gescannte Posten der aktuelle der Person ist — ohne eine
+     * Antwort zu verlangen. Wird schon beim Laden der Seite aufgerufen, damit
+     * der Hinweis auf den richtigen Posten sofort beim Scannen erscheint statt
+     * erst beim Abschicken einer Antwort, und die falsche Frage gar nicht erst
+     * zu sehen ist.
+     *
+     * @return leer, wenn der Posten stimmt (die Frage darf gezeigt werden);
+     *         sonst eine Rückmeldung mit dem Hinweis, wo der richtige Posten ist.
+     *         Auch leer, wenn Code oder Posten unbekannt sind — das behandeln
+     *         die Aufrufer bereits selbst.
+     */
+    @Transactional(readOnly = true)
+    public Optional<GameResult> checkPosition(String code, String token) {
+        Optional<Participant> participant = participantRepository.findByCode(normalizeCode(code));
+        Optional<Question> scanned = huntService.findByToken(token);
+        if (participant.isEmpty() || scanned.isEmpty()) {
+            return Optional.empty();
+        }
+        return checkPosition(participant.get(), scanned.get());
+    }
+
+    private Optional<GameResult> checkPosition(Participant participant, Question scanned) {
+        if (participant.hasSolvedEverything()) {
+            return Optional.of(new GameResult(true,
+                    "Du hast bereits alle Posten gelöst! Suche den Ziel-QR-Code, um abzuschliessen."));
+        }
+
+        Long currentId = participant.getCurrentQuestionId();
+        if (!scanned.getId().equals(currentId)) {
+            Question current = huntService.getQuestion(currentId);
+            return Optional.of(new GameResult(false,
+                    "Das ist nicht dein Posten! Deiner befindet sich hier: " + current.getPlace()));
+        }
+
+        return Optional.empty();
+    }
+
+    /**
      * Prüft die Antwort an einem Posten. Der Posten muss der aktuelle der Person
      * sein — sonst wird gesagt, wo der richtige steht.
      */
@@ -80,14 +118,9 @@ public class ParticipantService {
             return new GameResult(false, "Diesen Posten gibt es nicht.");
         }
 
-        if (participant.hasSolvedEverything()) {
-            return new GameResult(true, "Du hast bereits alle Posten gelöst! Geh zurück zum Start und schliesse die Schnitzeljagd ab.");
-        }
-
-        Long currentId = participant.getCurrentQuestionId();
-        if (!scanned.get().getId().equals(currentId)) {
-            Question current = huntService.getQuestion(currentId);
-            return new GameResult(false, "Du bist nicht beim richtigen Posten! Deiner befindet sich hier: " + current.getPlace());
+        Optional<GameResult> positionProblem = checkPosition(participant, scanned.get());
+        if (positionProblem.isPresent()) {
+            return positionProblem.get();
         }
 
         if (!scanned.get().accepts(answer)) {
@@ -98,7 +131,7 @@ public class ParticipantService {
         participant.markSolved();
 
         if (nextId == null) {
-            return new GameResult(true, "Richtig — und damit hast du alle Posten gelöst! Geh zurück zum Start, um die Schnitzeljagd abzuschliessen.");
+            return new GameResult(true, "Richtig — und damit hast du alle Posten gelöst! Suche den Ziel-QR-Code, um abzuschliessen.");
         }
         Question next = huntService.getQuestion(nextId);
         return new GameResult(true, "Die Antwort ist richtig! Den nächsten Posten findest du hier: " + next.getPlace());

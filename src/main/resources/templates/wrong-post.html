@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nicht dein Posten</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<h1>Das ist nicht dein Posten</h1>
+<p th:text="${message}">Meldungstext</p>
+<p style="font-size: 18px;">
+    <a th:href="@{/}">Zur Startseite</a>
+</p>
+</body>
+</html>

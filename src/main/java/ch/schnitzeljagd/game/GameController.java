@@ -93,7 +93,12 @@ public class GameController {
         return "redirect:/q/" + huntService.getQuestion(questionId).getToken();
     }
 
-    /** Wird vom QR-Code am Posten aufgerufen. */
+    /**
+     * Wird vom QR-Code am Posten aufgerufen. Ist der Code aus dem Cookie bekannt
+     * und der Posten nicht der aktuelle der Person, wird das schon hier gesagt —
+     * die falsche Frage wird gar nicht erst gezeigt, statt den Fehler erst nach
+     * dem Abschicken einer Antwort zu melden.
+     */
     @GetMapping("/q/{token}")
     public String showQuestion(@PathVariable String token, HttpServletRequest request, Model model) {
         Optional<Question> question = huntService.findByToken(token);
@@ -101,7 +106,15 @@ public class GameController {
             model.addAttribute("message", "Diesen Posten gibt es nicht. Stimmt der QR-Code?");
             return "unknown-post";
         }
-        addQuestionAttributes(model, question.get(), readCodeCookie(request), null);
+
+        String code = readCodeCookie(request);
+        Optional<ParticipantService.GameResult> positionProblem = participantService.checkPosition(code, token);
+        if (positionProblem.isPresent()) {
+            model.addAttribute("message", positionProblem.get().message());
+            return "wrong-post";
+        }
+
+        addQuestionAttributes(model, question.get(), code, null);
         return "questions";
     }
 
