@@ -55,7 +55,10 @@
             <td th:text="${participant.hintCount} + ' (+' + ${participant.hintCount} + ' Min.)'">0</td>
             <td th:text="${participant.durationAsFormattedString}"></td>
             <td>
-                <form th:action="@{/admin/participants/delete}" method="post" class="inline">
+                <!-- Statischer Text statt th:onsubmit mit Variable: Thymeleaf verbietet
+                     Text aus Variablen in th:on*-Attributen als XSS-Schutz. -->
+                <form th:action="@{/admin/participants/delete}" method="post" class="inline"
+                      onsubmit="return confirm('Diese teilnehmende Person wirklich löschen?');">
                     <input type="hidden" name="code" th:value="${participant.code}">
                     <button type="submit" class="danger">Löschen</button>
                 </form>
