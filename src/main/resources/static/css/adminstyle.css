@@ -1,0 +1,223 @@
+/* Eigener Stil fuer den Adminbereich: kompakt und tabellentauglich —
+   der Schuelerstil (questionstyle.css) ist bewusst gross und zentriert. */
+
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 0 0 60px 0;
+}
+
+.topbar {
+    background-color: #5078A4;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.topbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.topbar a:hover {
+    text-decoration: underline;
+}
+
+.topbar .spacer {
+    flex: 1;
+}
+
+.content {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 19px;
+    margin-top: 30px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+th {
+    background-color: #5078A4;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) td {
+    background-color: #fafafa;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 12px 0 4px 0;
+}
+
+input[type=text], textarea, input[type=password] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+textarea {
+    min-height: 70px;
+}
+
+.hint {
+    font-size: 12px;
+    color: #666;
+    font-weight: normal;
+}
+
+/* Die Lösung soll man beim Überfliegen der Postenliste sofort finden. */
+.solution {
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+button, .button {
+    background-color: #5078A4;
+    color: white;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+button:hover, .button:hover {
+    background-color: #6088b4;
+}
+
+button.danger {
+    background-color: #b03030;
+}
+
+button.danger:hover {
+    background-color: #c44040;
+}
+
+button.secondary, .button.secondary {
+    background-color: #888;
+}
+
+button.secondary:hover, .button.secondary:hover {
+    background-color: #999;
+}
+
+.inline {
+    display: inline;
+}
+
+.message {
+    background: #e6f4e6;
+    border-left: 5px solid #2e7d32;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+}
+
+.error {
+    background: #fbe6e6;
+    border-left: 5px solid #b03030;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+}
+
+.badge {
+    background: #2e7d32;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+code {
+    background: #eee;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 13px;
+    word-break: break-all;
+}
+
+/* Druckansicht der QR-Codes: ein Posten pro Seite */
+
+.qr-page {
+    text-align: center;
+    padding: 40px 20px;
+    page-break-after: always;
+}
+
+.qr-page h2 {
+    font-size: 34px;
+    margin-bottom: 0;
+}
+
+.qr-page .place {
+    font-size: 22px;
+    color: #444;
+    margin-top: 6px;
+}
+
+.qr-page img {
+    width: 320px;
+    height: 320px;
+    margin-top: 20px;
+}
+
+@media print {
+    .topbar, .no-print {
+        display: none;
+    }
+
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .content {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+}

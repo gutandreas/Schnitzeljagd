@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<!--
+  Gemeinsame Bausteine des Adminbereichs: Kopfleiste und Meldungen.
+  Eingebunden mit th:replace="~{admin/layout :: topbar}" bzw. ":: messages".
+-->
+<body>
+
+<div class="topbar" th:fragment="topbar">
+    <a th:href="@{/admin}">Jagden</a>
+    <a th:href="@{/admin/participants}">Teilnehmende</a>
+    <a th:href="@{/}">Zur Schnitzeljagd</a>
+    <span class="spacer"></span>
+    <form th:action="@{/logout}" method="post" class="inline">
+        <button type="submit" class="secondary">Abmelden</button>
+    </form>
+</div>
+
+<div th:fragment="messages">
+    <div class="message" th:if="${message}" th:text="${message}">Meldung</div>
+    <div class="error" th:if="${error}" th:text="${error}">Fehler</div>
+</div>
+
+</body>
+</html>

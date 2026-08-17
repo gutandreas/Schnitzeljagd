@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QR-Codes drucken</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminstyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div th:replace="~{admin/layout :: topbar}"></div>
+
+<div class="content no-print">
+    <h1>QR-Codes: <span th:text="${hunt.name}">Name</span></h1>
+    <p class="hint">
+        Ein Posten pro Seite. Über „Drucken" des Browsers ausgeben — Kopfleiste und dieser
+        Hinweis werden dabei ausgeblendet.
+    </p>
+    <p>
+        <button type="button" onclick="window.print()">Drucken</button>
+        <a class="button secondary" th:href="@{'/admin/hunts/' + ${hunt.id}}">Zurück</a>
+    </p>
+    <p class="hint">
+        Die Codes zeigen auf <code th:text="${baseUrl}">Basis-URL</code>. Stimmt das nicht,
+        muss <code>SCHNITZELJAGD_BASE_URL</code> angepasst werden — sonst führen die
+        gedruckten Codes ins Leere.
+    </p>
+</div>
+
+<!-- Erste Seite: der Anmelde-Code. Damit startet die Klasse, bevor sie ausschwaermt. -->
+<div class="qr-page">
+    <h2>Hier starten</h2>
+    <p class="place">Anmeldung zur Schnitzeljagd</p>
+    <img th:src="@{/admin/qr-start.png}" alt="QR-Code Anmeldung">
+    <p class="hint" th:text="${baseUrl}">Basis-URL</p>
+</div>
+
+<div th:each="question : ${questions}" class="qr-page">
+    <h2 th:text="${question.position} + '. ' + ${question.title}">1. Titel</h2>
+    <p class="place" th:text="${question.place}">Ort</p>
+    <img th:src="@{'/admin/qr/' + ${question.token} + '.png'}" alt="QR-Code">
+    <p class="hint" th:text="${baseUrl + '/q/' + question.token}">URL</p>
+</div>
+</body>
+</html>

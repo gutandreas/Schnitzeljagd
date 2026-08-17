@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Posten verwalten</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminstyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div th:replace="~{admin/layout :: topbar}"></div>
+
+<div class="content">
+    <div th:replace="~{admin/layout :: messages}"></div>
+
+    <h1>
+        <span th:text="${hunt.name}">Name der Jagd</span>
+        <span class="badge" th:if="${hunt.active}">aktiv</span>
+    </h1>
+
+    <div class="card">
+        <form th:action="@{'/admin/hunts/' + ${hunt.id} + '/rename'}" method="post">
+            <label for="name">Name der Jagd</label>
+            <input type="text" id="name" name="name" th:value="${hunt.name}" required>
+            <br><br>
+            <button type="submit">Umbenennen</button>
+            <a class="button secondary" th:href="@{'/admin/hunts/' + ${hunt.id} + '/print'}">QR-Codes drucken</a>
+        </form>
+    </div>
+
+    <h2>Posten</h2>
+    <p class="hint">Posten 1 ist der Einstieg und bleibt bei allen zuerst; die übrigen werden pro Person gemischt.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 40px;">Nr.</th>
+            <th style="width: 18%;">Titel und Ort</th>
+            <th>Frage und Tipp</th>
+            <th style="width: 18%;">Lösung</th>
+            <th style="width: 70px;">Code</th>
+            <th style="width: 230px;">Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.position}">1</td>
+            <td>
+                <span th:text="${question.title}">Titel</span><br>
+                <span class="hint" th:text="${question.place}">Ort</span>
+            </td>
+            <td>
+                <span th:text="${question.text}">Frage</span>
+                <br th:if="${question.hint != null}">
+                <span class="hint" th:if="${question.hint != null}"
+                      th:text="'Tipp: ' + ${question.hint}">Tipp</span>
+            </td>
+            <td class="solution" th:text="${question.answersAsLine}">Lösung</td>
+            <td><code th:text="${question.token}">ABC123</code></td>
+            <td>
+                <a class="button" th:href="@{'/admin/questions/' + ${question.id}}">Bearbeiten</a>
+                <form th:action="@{'/admin/questions/' + ${question.id} + '/move'}" method="post" class="inline">
+                    <input type="hidden" name="delta" value="-1">
+                    <button type="submit" class="secondary" title="nach oben">&uarr;</button>
+                </form>
+                <form th:action="@{'/admin/questions/' + ${question.id} + '/move'}" method="post" class="inline">
+                    <input type="hidden" name="delta" value="1">
+                    <button type="submit" class="secondary" title="nach unten">&darr;</button>
+                </form>
+                <form th:action="@{'/admin/questions/' + ${question.id} + '/delete'}" method="post" class="inline"
+                      onsubmit="return confirm('Diesen Posten wirklich löschen?');">
+                    <button type="submit" class="danger">Löschen</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(questions)}">
+            <td colspan="6">Noch keine Posten angelegt.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Neuen Posten hinzufügen</h2>
+    <div class="card">
+        <form th:action="@{'/admin/hunts/' + ${hunt.id} + '/questions'}" method="post">
+            <label for="title">Titel <span class="hint">(erscheint als Überschrift, z.B. „Verschlüsselung")</span></label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="place">Ort <span class="hint">(wird als Wegbeschreibung zum nächsten Posten angezeigt)</span></label>
+            <input type="text" id="place" name="place" required>
+
+            <label for="text">Frage</label>
+            <textarea id="text" name="text" required></textarea>
+
+            <label for="answers">Richtige Antworten
+                <span class="hint">(mehrere mit Semikolon trennen, z.B. „160000; 160'000" — Gross-/Kleinschreibung egal)</span></label>
+            <input type="text" id="answers" name="answers" required>
+
+            <label for="hint">Tipp <span class="hint">(freiwillig)</span></label>
+            <input type="text" id="hint" name="hint">
+
+            <br><br>
+            <button type="submit">Posten hinzufügen</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

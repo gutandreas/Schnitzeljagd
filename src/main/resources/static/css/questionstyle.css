@@ -123,8 +123,10 @@ button[type=submit] {
     margin: 20px;
 }
 
+/* Der Tipp wird nicht mehr per CSS versteckt: Er steht erst dann in der Seite,
+   wenn er angefordert (und mit einer Minute bezahlt) wurde. */
 #hint_label {
-    display: none;
+    color: #8a6d00;
 }
 
 #hintButton {

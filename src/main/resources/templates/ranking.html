@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Schnitzeljagd – Rangliste</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/rankingstyle.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<img src="/images/logo.png">
-<h1>Rangliste Schnitzeljagd</h1>
-<p>Hier findest du die bestplatzierten Teilnehmer*innen der Schnitzeljagd:</p>
-<table>
+<img src="/images/logo.png" alt="Logo">
+<h1>Rangliste</h1>
+<p th:if="${hunt != null}" th:text="${hunt.name}">Name der Jagd</p>
+
+<p th:if="${#lists.isEmpty(ranking)}">Noch hat niemand die Schnitzeljagd abgeschlossen.</p>
+
+<table th:unless="${#lists.isEmpty(ranking)}">
     <thead>
     <tr>
         <th>Rang</th>
@@ -20,13 +24,17 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user, rowStat : ${ranking}">
-        <td th:text="${rowStat.count}"></td>
-        <td th:text="${user.vorname}"></td>
-        <td th:text="${user.nachname}"></td>
-        <td th:text="${user.getDurationAsFormattedString()}"></td>
+    <tr th:each="participant, rowStat : ${ranking}">
+        <td th:text="${rowStat.count}">1</td>
+        <td th:text="${participant.firstName}">Vorname</td>
+        <td th:text="${participant.lastName}">Name</td>
+        <td th:text="${participant.durationAsFormattedString}">0:00:00</td>
     </tr>
     </tbody>
 </table>
+
+<p style="font-size: 18px;">
+    <a th:href="@{/}">Zur Startseite</a>
+</p>
 </body>
 </html>

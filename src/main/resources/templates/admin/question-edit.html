@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Posten bearbeiten</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminstyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div th:replace="~{admin/layout :: topbar}"></div>
+
+<div class="content">
+    <div th:replace="~{admin/layout :: messages}"></div>
+
+    <h1>Posten <span th:text="${question.position}">1</span> bearbeiten</h1>
+    <p class="hint">
+        Jagd: <a th:href="@{'/admin/hunts/' + ${hunt.id}}" th:text="${hunt.name}">Name</a>
+    </p>
+
+    <div class="card">
+        <form th:action="@{'/admin/questions/' + ${question.id}}" method="post">
+            <label for="title">Titel</label>
+            <input type="text" id="title" name="title" th:value="${question.title}" required>
+
+            <label for="place">Ort</label>
+            <input type="text" id="place" name="place" th:value="${question.place}" required>
+
+            <label for="text">Frage</label>
+            <textarea id="text" name="text" required th:text="${question.text}"></textarea>
+
+            <label for="answers">Richtige Antworten <span class="hint">(mehrere mit Semikolon trennen)</span></label>
+            <input type="text" id="answers" name="answers" th:value="${question.answersAsLine}" required>
+
+            <label for="hint">Tipp</label>
+            <input type="text" id="hint" name="hint" th:value="${question.hint}">
+
+            <br><br>
+            <button type="submit">Speichern</button>
+            <a class="button secondary" th:href="@{'/admin/hunts/' + ${hunt.id}}">Abbrechen</a>
+        </form>
+    </div>
+
+    <h2>QR-Code dieses Postens</h2>
+    <div class="card" style="text-align: center;">
+        <img th:src="@{'/admin/qr/' + ${question.token} + '.png'}" alt="QR-Code" width="240" height="240">
+        <p><code th:text="${baseUrl + '/q/' + question.token}">URL</code></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Jagden verwalten</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminstyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div th:replace="~{admin/layout :: topbar}"></div>
+
+<div class="content">
+    <div th:replace="~{admin/layout :: messages}"></div>
+
+    <h1>Schnitzeljagden</h1>
+    <p class="hint">Aktiv ist immer genau eine Jagd — sie bekommen die Teilnehmenden zu sehen.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Posten</th>
+            <th>Status</th>
+            <th style="width: 320px;">Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="hunt : ${hunts}">
+            <td>
+                <a th:href="@{'/admin/hunts/' + ${hunt.id}}" th:text="${hunt.name}">Name</a>
+            </td>
+            <td th:text="${questionCounts.get(hunt.id)}">0</td>
+            <td>
+                <span class="badge" th:if="${hunt.active}">aktiv</span>
+            </td>
+            <td>
+                <form th:action="@{'/admin/hunts/' + ${hunt.id} + '/activate'}" method="post" class="inline"
+                      th:unless="${hunt.active}">
+                    <button type="submit">Aktiv setzen</button>
+                </form>
+                <a class="button secondary" th:href="@{'/admin/hunts/' + ${hunt.id}}">Posten</a>
+                <form th:action="@{'/admin/hunts/' + ${hunt.id} + '/delete'}" method="post" class="inline"
+                      onsubmit="return confirm('Diese Jagd samt allen Posten wirklich löschen?');">
+                    <button type="submit" class="danger">Löschen</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(hunts)}">
+            <td colspan="4">Noch keine Jagd angelegt.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Neue Jagd anlegen</h2>
+    <div class="card">
+        <form th:action="@{/admin/hunts}" method="post">
+            <label for="name">Name <span class="hint">(z.B. „Informatik 1a, Herbst 2026")</span></label>
+            <input type="text" id="name" name="name" required>
+            <br><br>
+            <button type="submit">Anlegen</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,21 +1,34 @@
-<html>
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Herzlichen Glückwunsch!</title>
+    <title>Abschluss der Schnitzeljagd</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
-    <script type="text/javascript" th:src="@{/scripts/checkOutScripts.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<img src="/images/logo.png">
+<img src="/images/logo.png" alt="Logo">
 <h1>Abschluss der Schnitzeljagd</h1>
-<p>Hast du alle Posten abgeschlossen? Gib zur Überprüfung deinen Code ein, dann wird die Zeit gestoppt.</p>
-<label for="code">Code:</label>
-<input type="text" id="code" name="code" maxlength="4" required>
-<br>
-<button id="hintButton" type="button" onclick="sendCheckout()">Schnitzeljagd abschliessen</button>
+<p th:if="${participant == null}">Hast du alle Posten gelöst? Gib deinen Code ein, dann wird die Zeit gestoppt.</p>
+<p th:if="${participant != null}">
+    Hast du alle Posten gelöst, <span th:text="${participant.firstName}">Vorname</span>?
+    Dann wird jetzt die Zeit gestoppt.
+</p>
 
-<p id="answer"></p>
+<form th:action="@{/checkout}" method="post">
+    <div th:style="${participant != null} ? 'display: none;' : ''">
+        <label for="code">Code:</label>
+        <input type="text" id="code" name="code" maxlength="8" th:value="${code}"
+               th:required="${participant == null}">
+    </div>
+    <button type="submit" id="sendButton">Schnitzeljagd abschliessen</button>
+</form>
 
+<p th:if="${result != null}" th:text="${result.message}"
+   th:style="${result.success} ? 'color: #2e7d32;' : 'color: #b03030;'">Rückmeldung</p>
+
+<p style="font-size: 18px;">
+    <a th:href="@{/ranking}">Zur Rangliste</a>
+</p>
 </body>
 </html>

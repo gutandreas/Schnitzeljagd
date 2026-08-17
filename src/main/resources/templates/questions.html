@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Schnitzeljagd</title>
@@ -8,23 +8,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1 id="question_number">Aufgabe <span th:text="${question.title}"></span></h1>
+<h1 id="question_number">Aufgabe <span th:text="${question.title}">Titel</span></h1>
 
+<!-- Fortschritt nur vor dem Antworten zeigen; danach wuerde der Zaehler schon
+     den naechsten Posten meinen und nicht mehr zur Ueberschrift passen. -->
+<p th:if="${participant != null and result == null}" style="font-size: 18px;">
+    Posten <span th:text="${participant.solved + 1}">1</span> von <span th:text="${participant.total}">10</span>
+</p>
 
-<p><span th:text="${question.question}"></span></p>
+<p th:text="${question.text}">Fragetext</p>
 
-<label for="antwort">Antwort:</label>
-<input type="text" id="antwort" name="antwort" required>
-<br>
-<label for="code">Code:</label>
-<input type="text" id="code" name="code" maxlength="4" required>
-<br>
-<button id="sendButton" type="button" onclick="sendAnswer()">Antwort senden</button>
-<button id="hintButton" type="button" onclick="getHint()"> Tipp anfordern</button>
+<form th:action="@{'/q/' + ${question.token} + '/answer'}" method="post">
+    <label for="answer">Antwort:</label>
+    <input type="text" id="answer" name="answer" autocomplete="off" required>
 
-<p id="hint_label"><span th:text="${question.hint}"></span></p>
-<p id="answer_correct"></p>
+    <!-- Ist der Code aus dem Cookie bekannt, bleibt das Feld verborgen: Es wuerde an
+         jedem Posten dieselbe Eingabe verlangen. Sichtbar wird es nur, wenn das Cookie
+         fehlt (z.B. weil der QR-Scanner einen anderen Browser oeffnet) oder wenn
+         jemand bewusst einen anderen Code eintippen will. -->
+    <div id="code_row" th:style="${participant != null} ? 'display: none;' : ''">
+        <label for="code">Code:</label>
+        <input type="text" id="code" name="code" maxlength="8" th:value="${code}"
+               th:required="${participant == null}">
+    </div>
 
-<p id="posten_number">[[${number}]]</p>
+    <p th:if="${participant != null}" style="font-size: 18px;">
+        Angemeldet als <span th:text="${participant.firstName}">Vorname</span>
+        (Code <span th:text="${participant.code}">CODE</span>)
+        &nbsp;<a href="#" onclick="showCodeField(); return false;" style="font-size: 16px;">nicht du?</a>
+    </p>
+
+    <br>
+    <button type="submit" id="sendButton">Antwort senden</button>
+
+    <!-- Der Tipp-Knopf gehoert in dasselbe Formular, damit der Code mitgeschickt
+         wird. formnovalidate, weil fuer einen Tipp keine Antwort noetig ist. -->
+    <button type="submit" id="hintButton" formnovalidate
+            th:if="${hintAvailable and !hintUnlocked}"
+            th:formaction="@{'/q/' + ${question.token} + '/hint'}"
+            onclick="return confirm('Der Tipp kostet dich eine Minute. Trotzdem anzeigen?');">
+        Tipp anfordern (+1 Minute)
+    </button>
+</form>
+
+<p id="hint_label" th:if="${hintText != null}" th:text="'Tipp: ' + ${hintText}">Tipp</p>
+
+<p th:if="${result != null}" th:text="${result.message}"
+   th:style="${result.success} ? 'color: #2e7d32;' : 'color: #b03030;'">Rückmeldung</p>
+
+<p th:if="${everythingSolved}">
+    <a th:href="@{/checkout}">Jetzt abschliessen und Zeit stoppen</a>
+</p>
 </body>
 </html>

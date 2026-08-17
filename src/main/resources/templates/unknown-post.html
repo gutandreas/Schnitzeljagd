@@ -2,13 +2,13 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Da ging etwas schief</title>
+    <title>Unbekannter Posten</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>Da ging etwas schief</h1>
-<p th:text="${error} ?: 'Die Seite konnte nicht angezeigt werden.'">Fehler</p>
+<h1>Hoppla</h1>
+<p th:text="${message}">Diesen Posten gibt es nicht.</p>
 <p style="font-size: 18px;">
     <a th:href="@{/}">Zur Startseite</a>
 </p>

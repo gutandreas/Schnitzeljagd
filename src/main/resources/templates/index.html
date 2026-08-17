@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Schnitzeljagd</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/questionstyle.css}" />
@@ -7,16 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<img src="/images/logo.png">
-<h1>Schnitzeljagd der Kanti Sursee</h1>
-<form action="/register" method="POST">
-    <label for="vorname">Vorname:</label>
-    <input type="text" id="vorname" name="vorname" required><br><br>
+<img src="/images/logo.png" alt="Logo">
+<h1 th:text="${title}">Schnitzeljagd</h1>
 
-    <label for="nachname">Nachname:</label>
-    <input type="text" id="nachname" name="nachname" required><br><br>
+<p th:if="${hunt != null}" th:text="${hunt.name}">Name der Jagd</p>
 
-    <input type="submit" id="register-button" value="Anmelden">
+<p th:if="${error}" th:text="${error}" style="color: #b03030;">Fehlermeldung</p>
+
+<div th:if="${hunt == null}">
+    <p>Zurzeit ist keine Schnitzeljagd freigeschaltet. Bitte wende dich an deine Lehrperson.</p>
+</div>
+
+<form th:if="${hunt != null}" th:action="@{/register}" method="post">
+    <label for="firstName">Vorname:</label>
+    <input type="text" id="firstName" name="firstName" required><br><br>
+
+    <label for="lastName">Nachname:</label>
+    <input type="text" id="lastName" name="lastName" required><br><br>
+
+    <button type="submit" id="register-button">Anmelden</button>
 </form>
+
+<p style="font-size: 18px;">
+    <a th:href="@{/checkout}">Schnitzeljagd abschliessen</a> &nbsp;·&nbsp;
+    <a th:href="@{/ranking}">Rangliste</a>
+</p>
 </body>
 </html>
