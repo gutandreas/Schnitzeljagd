@@ -10,6 +10,13 @@
 <body>
 <h1 id="question_number">Aufgabe <span th:text="${question.title}">Titel</span></h1>
 
+<!-- Startwert vom Server, danach zaehlt der Client selbst weiter (siehe
+     questionScript.js). Ein neuer, korrigierter Wert kommt erst mit dem naechsten
+     vollen Seitenaufbau — z.B. wenn ein Tipp den Zuschlag draufschlaegt. -->
+<p id="timer" th:if="${elapsedSeconds != null}"
+   th:data-seconds="${elapsedSeconds}" th:data-running="${timerRunning}"
+   style="font-size: 28px; font-weight: bold; font-family: 'Courier New', monospace;">00:00</p>
+
 <!-- Fortschritt nur vor dem Antworten zeigen; danach wuerde der Zaehler schon
      den naechsten Posten meinen und nicht mehr zur Ueberschrift passen. -->
 <p th:if="${participant != null and result == null}" style="font-size: 18px;">

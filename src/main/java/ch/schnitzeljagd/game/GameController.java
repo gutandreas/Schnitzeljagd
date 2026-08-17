@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -188,6 +189,13 @@ public class GameController {
         model.addAttribute("participant", participant.orElse(null));
         model.addAttribute("total", huntService.countQuestions(hunt));
         model.addAttribute("everythingSolved", participant.map(Participant::hasSolvedEverything).orElse(false));
+
+        // Startwert fuer den Client-Timer: verstrichene Zeit inklusive Tippzuschlaege,
+        // zum Renderzeitpunkt berechnet. Der Client zaehlt danach selbst weiter, ohne
+        // den Server erneut zu fragen; ein neuer Wert kommt erst mit dem naechsten
+        // vollen Seitenaufbau (Antwort senden, Tipp anfordern, Posten wechseln).
+        model.addAttribute("elapsedSeconds", participant.map(p -> p.getElapsedSeconds(LocalDateTime.now())).orElse(null));
+        model.addAttribute("timerRunning", participant.map(p -> !p.isFinished()).orElse(false));
 
         // Der Tipptext geht nur an die Seite, wenn er auch bezahlt wurde — sonst
         // liesse er sich im Seitenquelltext gratis nachlesen.

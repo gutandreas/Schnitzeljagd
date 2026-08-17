@@ -125,6 +125,30 @@ class WebSmokeTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("eine Minute")));
     }
 
+    /** Der Timer-Startwert im HTML muss sofort den Tippzuschlag enthalten. */
+    @Test
+    void timerZeigtDenTippzuschlagOhneErneutesLaden() throws Exception {
+        String vorher = mockMvc.perform(get("/q/" + question.getToken()).cookie(new Cookie("sjcode", participant.getCode())))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        long sekundenVorher = extractTimerSeconds(vorher);
+
+        String nachher = mockMvc.perform(post("/q/" + question.getToken() + "/hint").with(csrf())
+                        .param("code", participant.getCode()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        long sekundenNachher = extractTimerSeconds(nachher);
+
+        org.junit.jupiter.api.Assertions.assertTrue(sekundenNachher >= sekundenVorher + 60,
+                "Zuschlag fehlt im Timer: vorher " + sekundenVorher + "s, nachher " + sekundenNachher + "s");
+    }
+
+    private long extractTimerSeconds(String html) {
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("data-seconds=\"(\\d+)\"").matcher(html);
+        org.junit.jupiter.api.Assertions.assertTrue(matcher.find(), "Kein Timer-Attribut im HTML gefunden");
+        return Long.parseLong(matcher.group(1));
+    }
+
     @Test
     void abschlussseiteWirdGerendert() throws Exception {
         mockMvc.perform(get("/checkout").cookie(new Cookie("sjcode", participant.getCode())))

@@ -137,6 +137,16 @@ public class Participant {
     }
 
     /**
+     * Die Anzeigezeit für den Timer auf dem Handy: verstrichene Zeit plus
+     * Tippzuschlag. Nach dem Abschluss steht sie fest (Endzeit statt {@code now});
+     * der Client zaehlt ab diesem Wert weiter, ohne den Server erneut zu fragen.
+     */
+    public long getElapsedSeconds(LocalDateTime now) {
+        LocalDateTime end = isFinished() ? stop : now;
+        return Duration.between(start, end).plus(getPenalty()).getSeconds();
+    }
+
+    /**
      * Stoppt die Zeit; mehrfaches Aufrufen ändert das Ergebnis nicht.
      * Die Tippzuschläge werden dabei aufgerechnet.
      */
