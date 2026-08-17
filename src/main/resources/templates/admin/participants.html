@@ -12,7 +12,15 @@
 <div class="content">
     <div th:replace="~{admin/layout :: messages}"></div>
 
-    <h1>Teilnehmende</h1>
+    <h1>
+        Teilnehmende
+        <a class="button secondary" th:href="@{/admin/participants}"
+           style="font-size: 14px; vertical-align: middle; margin-left: 10px;">Aktualisieren</a>
+    </h1>
+    <p class="hint">
+        Stand: <span th:text="${#temporals.format(now, 'HH:mm:ss')}">00:00:00</span> —
+        die Liste aktualisiert sich nicht von selbst, dafür „Aktualisieren" anklicken.
+    </p>
 
     <table>
         <thead>
@@ -23,6 +31,7 @@
             <th>Jagd</th>
             <th>Start</th>
             <th>Fortschritt</th>
+            <th>Postenreihenfolge</th>
             <th>Tipps</th>
             <th>Zeit</th>
             <th style="width: 110px;">Aktion</th>
@@ -36,6 +45,13 @@
             <td th:text="${participant.hunt.name}">Jagd</td>
             <td th:text="${#temporals.format(participant.start, 'dd.MM.yyyy HH:mm')}">Start</td>
             <td th:text="${participant.solved} + ' / ' + ${participant.total}">0 / 10</td>
+            <!-- Der aktuelle Posten (nächster, den die Person lösen muss) ist hervorgehoben. -->
+            <td>
+                <th:block th:each="q, iter : ${routes.get(participant.id)}">
+                    <span th:classappend="${iter.index == participant.solved} ? ' current-post'"
+                          th:text="${q.position} + ' (' + ${q.place} + ')'">1 (Ort)</span><span th:unless="${iter.last}">, </span>
+                </th:block>
+            </td>
             <td th:text="${participant.hintCount} + ' (+' + ${participant.hintCount} + ' Min.)'">0</td>
             <td th:text="${participant.durationAsFormattedString}"></td>
             <td>
@@ -46,7 +62,7 @@
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(participants)}">
-            <td colspan="9">Noch niemand angemeldet.</td>
+            <td colspan="10">Noch niemand angemeldet.</td>
         </tr>
         </tbody>
     </table>

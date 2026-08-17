@@ -250,6 +250,32 @@ class WebSmokeTest {
         mockMvc.perform(get("/admin/participants")).andExpect(status().isOk());
     }
 
+    /**
+     * Die Teilnehmerliste soll die persönliche Postenreihenfolge mit Nummer und
+     * Ort zeigen, damit der Admin live sieht, wo jemand hin muss.
+     */
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void teilnehmerlisteZeigtPostenreihenfolgeMitOrtUndZahl() throws Exception {
+        String seite = mockMvc.perform(get("/admin/participants"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        // Beide Posten der Route muessen mit ihrer Nummer und ihrem Ort auftauchen.
+        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("1 (Zimmer 1)"),
+                "Erster Posten (Nummer + Ort) fehlt in der Reihenfolge.");
+        org.junit.jupiter.api.Assertions.assertTrue(seite.contains("2 (Lichthof)"),
+                "Zweiter Posten (Nummer + Ort) fehlt in der Reihenfolge.");
+
+        // Der aktuelle Posten (Position 1, noch nichts geloest) ist hervorgehoben.
+        org.junit.jupiter.api.Assertions.assertTrue(
+                seite.contains("current-post\">1 (Zimmer 1)"),
+                "Der aktuelle Posten muss als current-post hervorgehoben sein.");
+        org.junit.jupiter.api.Assertions.assertFalse(
+                seite.contains("current-post\">2 (Lichthof)"),
+                "Ein noch nicht faelliger Posten darf nicht hervorgehoben sein.");
+    }
+
     @Test
     @WithMockUser(roles = "ADMIN")
     void qrBilderWerdenErzeugt() throws Exception {

@@ -4,6 +4,7 @@ import ch.schnitzeljagd.common.QrGenerator;
 import ch.schnitzeljagd.hunt.Hunt;
 import ch.schnitzeljagd.hunt.HuntService;
 import ch.schnitzeljagd.hunt.Question;
+import ch.schnitzeljagd.participant.Participant;
 import ch.schnitzeljagd.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -219,7 +221,21 @@ public class AdminController {
 
     @GetMapping("/participants")
     public String participants(Model model) {
-        model.addAttribute("participants", participantService.getParticipants());
+        List<Participant> participants = participantService.getParticipants();
+
+        // Route je Person auflösen (Posten-IDs -> Posten mit Nummer und Ort), damit
+        // die Tabelle zeigt, wo jemand als Nächstes hin muss — nicht nur wie viele
+        // Posten schon gelöst sind.
+        Map<Long, List<Question>> routes = new LinkedHashMap<>();
+        for (Participant participant : participants) {
+            routes.put(participant.getId(), huntService.getQuestionsByIds(participant.getRoute()));
+        }
+
+        model.addAttribute("participants", participants);
+        model.addAttribute("routes", routes);
+        // Damit auf der Seite sichtbar ist, wie aktuell der Stand ist — die Liste
+        // aktualisiert sich sonst nur, wenn die Seite neu geladen wird.
+        model.addAttribute("now", LocalDateTime.now());
         return "admin/participants";
     }
 

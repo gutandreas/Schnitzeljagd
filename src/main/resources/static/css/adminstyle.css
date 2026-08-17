@@ -114,6 +114,14 @@ textarea {
     color: #2e7d32;
 }
 
+/* Der Posten, den eine Person als Nächstes lösen muss — in der Teilnehmerliste. */
+.current-post {
+    font-weight: bold;
+    background-color: #fff3b0;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
 button, .button {
     background-color: #5078A4;
     color: white;

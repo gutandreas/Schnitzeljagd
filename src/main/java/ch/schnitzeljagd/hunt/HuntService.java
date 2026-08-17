@@ -7,7 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Verwaltet Jagden und ihre Posten. Genau eine Jagd ist aktiv — sie bestimmt,
@@ -66,6 +69,25 @@ public class HuntService {
     public Question getQuestion(Long questionId) {
         return questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("Posten " + questionId + " gibt es nicht."));
+    }
+
+    /**
+     * Löst eine Liste von Posten-IDs (z.B. die persönliche Route einer Person)
+     * zu den zugehörigen Fragen auf — in genau der übergebenen Reihenfolge, für
+     * die Admin-Ansicht der Teilnehmerliste.
+     * <p>
+     * {@code findAllById} liefert die Treffer in beliebiger Reihenfolge, deshalb
+     * der Umweg über eine Map. Ein inzwischen gelöschter Posten fällt dabei
+     * kommentarlos raus, statt eine NullPointerException auszulösen.
+     */
+    @Transactional(readOnly = true)
+    public List<Question> getQuestionsByIds(List<Long> ids) {
+        Map<Long, Question> byId = questionRepository.findAllById(ids).stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
+        return ids.stream()
+                .map(byId::get)
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     @Transactional
