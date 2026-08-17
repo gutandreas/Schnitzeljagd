@@ -1,0 +1,22 @@
+Dieser Block kommt in /opt/proxy/Caddyfile auf dem Server — zusaetzlich zum
+bestehenden velida.ch-Block, nicht an dessen Stelle.
+
+    schnitzeljagd.179.237.82.35.nip.io {
+        encode zstd gzip
+        reverse_proxy schnitzeljagd:8080
+    }
+
+nip.io loest den Namen auf die enthaltene IP auf; damit gibt es einen echten
+Hostnamen und Let's Encrypt stellt automatisch ein Zertifikat aus. Ohne Namen
+(nur IP) gaebe es kein HTTPS.
+
+Aendern und neu laden — erst pruefen, dann uebernehmen:
+
+    sudo docker compose -f /opt/proxy/docker-compose.yml exec -T caddy \
+        caddy validate --config /etc/caddy/Caddyfile
+    sudo docker compose -f /opt/proxy/docker-compose.yml exec -T caddy \
+        caddy reload --config /etc/caddy/Caddyfile
+
+Reihenfolge beachten (Lektion aus dem Velida-Deploy): Erst den Container
+starten, dann Caddy umstellen. Andersherum antwortet der Host zwischenzeitlich
+mit einem Fehler, weil das Ziel noch nicht existiert.

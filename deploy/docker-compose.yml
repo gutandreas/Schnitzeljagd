@@ -1,0 +1,30 @@
+# Gehoert auf den Server nach /opt/schnitzeljagd/docker-compose.yml
+#
+# Das Passwort steht NICHT hier, sondern in /opt/schnitzeljagd/.env:
+#     ADMIN_PASSWORD=...
+#
+# Bedienung auf dem Server:
+#     cd /opt/schnitzeljagd && sudo docker compose pull && sudo docker compose up -d
+
+services:
+  app:
+    image: ghcr.io/gutandreas/schnitzeljagd:latest
+    container_name: schnitzeljagd
+    restart: unless-stopped
+    environment:
+      # Diese URL landet in den gedruckten QR-Codes — sie muss von aussen stimmen!
+      SCHNITZELJAGD_BASE_URL: https://schnitzeljagd.179.237.82.35.nip.io
+      SCHNITZELJAGD_TITLE: Schnitzeljagd
+      SCHNITZELJAGD_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    volumes:
+      - schnitzeljagd_data:/data
+    networks:
+      - web
+
+volumes:
+  schnitzeljagd_data:
+
+networks:
+  # Dasselbe externe Netz, in dem Caddy und Velida bereits haengen.
+  web:
+    external: true

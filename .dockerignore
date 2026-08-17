@@ -1,0 +1,10 @@
+target/
+data/
+*.db
+.git/
+.github/
+.idea/
+.mvn/wrapper/maven-wrapper.jar
+QRcodes/
+deploy/
+*.md

@@ -1,0 +1,43 @@
+name: Build & Push
+
+# Baut das Image bei jedem Push auf master und legt es in der GitHub-Registry ab.
+# Auf dem Server wird es dann nur noch geholt (docker compose pull && up -d).
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: JDK 21 einrichten
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Tests
+        run: mvn -B verify
+
+      - name: An der GitHub-Registry anmelden
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image bauen und pushen
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/gutandreas/schnitzeljagd:latest
