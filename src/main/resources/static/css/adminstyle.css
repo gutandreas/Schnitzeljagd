@@ -1,5 +1,7 @@
 /* Admin-Design-System — dieselbe Sprache wie questionstyle.css (Farben, Radien,
-   Schrift), aber dichter und tabellentauglich statt gross und zentriert. */
+   Schrift), aber dichter und tabellentauglich statt gross und zentriert.
+   Bewusst kräftig statt zurückhaltend: kein Abtippen im Vorbeigehen, sondern
+   eine Oberfläche, die man während der Schnitzeljagd im Blick behalten muss. */
 
 :root {
     --color-primary: #1e40af;
@@ -9,14 +11,14 @@
     --color-danger: #dc2626;
     --color-danger-hover: #b91c1c;
     --color-text: #0f172a;
-    --color-text-muted: #64748b;
-    --color-border: #e2e8f0;
-    --color-bg: #f8fafc;
+    --color-text-muted: #475569;
+    --color-border: #cbd5e1;
+    --color-bg: #f1f5f9;
     --color-card: #ffffff;
     --radius-lg: 16px;
     --radius-md: 10px;
     --radius-sm: 7px;
-    --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 20px rgba(15, 23, 42, 0.06);
+    --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06), 0 10px 24px rgba(15, 23, 42, 0.1);
     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -29,30 +31,31 @@ body {
     background: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-sans);
+    font-size: 15px;
     -webkit-font-smoothing: antialiased;
     padding-bottom: 60px;
 }
 
 .topbar {
-    background: var(--color-card);
-    border-bottom: 1px solid var(--color-border);
-    padding: 14px 24px;
+    background: var(--color-primary);
+    padding: 16px 24px;
     display: flex;
     align-items: center;
     gap: 24px;
     flex-wrap: wrap;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
 }
 
 .topbar a {
-    color: var(--color-text-muted);
+    color: #dbe4ff;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 700;
+    font-size: 14.5px;
     transition: color 0.15s ease;
 }
 
 .topbar a:hover {
-    color: var(--color-primary);
+    color: white;
 }
 
 .topbar .spacer {
@@ -60,22 +63,22 @@ body {
 }
 
 .content {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 28px auto;
     padding: 0 20px;
 }
 
 h1 {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
     letter-spacing: -0.01em;
-    margin: 0 0 6px;
+    margin: 0 0 8px;
 }
 
 h2 {
-    font-size: 16px;
-    font-weight: 700;
-    margin: 32px 0 8px;
+    font-size: 19px;
+    font-weight: 800;
+    margin: 34px 0 10px;
 }
 
 .card {
@@ -83,7 +86,7 @@ h2 {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
-    padding: 20px 24px;
+    padding: 22px 26px;
     margin-bottom: 20px;
 }
 
@@ -97,18 +100,18 @@ table {
 }
 
 th, td {
-    padding: 11px 12px;
+    padding: 13px 14px;
     text-align: left;
     border-bottom: 1px solid var(--color-border);
     vertical-align: top;
-    font-size: 13.5px;
+    font-size: 15px;
 }
 
 th {
-    background: var(--color-bg);
-    color: var(--color-text-muted);
+    background: var(--color-primary);
+    color: white;
     font-weight: 700;
-    font-size: 11.5px;
+    font-size: 12.5px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }
@@ -118,13 +121,19 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover td {
-    background: #fafbff;
+    background: #eef2ff;
+}
+
+/* Aktions- und Code-Zellen sollen nie umbrechen — Knöpfe und Codes bleiben
+   in einer Zeile, auch wenn die Spalte dafür breiter werden muss. */
+td.actions, td.code-cell {
+    white-space: nowrap;
 }
 
 label {
     display: block;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 13.5px;
+    font-weight: 700;
     color: var(--color-text);
     margin: 14px 0 5px;
 }
@@ -132,10 +141,10 @@ label {
 input[type=text], textarea, input[type=password] {
     width: 100%;
     box-sizing: border-box;
-    padding: 9px 11px;
+    padding: 10px 12px;
     border: 1.5px solid var(--color-border);
     border-radius: var(--radius-sm);
-    font-size: 14px;
+    font-size: 14.5px;
     font-family: inherit;
     background: var(--color-card);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -144,7 +153,7 @@ input[type=text], textarea, input[type=password] {
 input[type=text]:focus, textarea:focus, input[type=password]:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.14);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.16);
 }
 
 textarea {
@@ -152,34 +161,34 @@ textarea {
 }
 
 .hint {
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--color-text-muted);
-    font-weight: normal;
+    font-weight: 500;
 }
 
 /* Die Lösung soll man beim Überfliegen der Postenliste sofort finden. */
 .solution {
-    font-weight: 700;
-    color: var(--color-success);
+    font-weight: 800;
+    color: var(--color-success-hover);
 }
 
 /* Der Posten, den eine Person als Nächstes lösen muss — in der Teilnehmerliste. */
 .current-post {
-    font-weight: 700;
-    background: #fef3c7;
-    color: #92400e;
-    padding: 2px 7px;
+    font-weight: 800;
+    background: #fde68a;
+    color: #78350f;
+    padding: 3px 9px;
     border-radius: 999px;
 }
 
 button, .button {
     background: var(--color-primary);
     color: white;
-    padding: 8px 15px;
+    padding: 9px 17px;
     border: none;
     border-radius: var(--radius-sm);
-    font-size: 13.5px;
-    font-weight: 600;
+    font-size: 14.5px;
+    font-weight: 700;
     font-family: inherit;
     cursor: pointer;
     text-decoration: none;
@@ -196,7 +205,7 @@ button:hover, .button:hover {
 }
 
 button.danger {
-    background: #fef2f2;
+    background: #fee2e2;
     color: var(--color-danger);
 }
 
@@ -206,25 +215,26 @@ button.danger:hover {
 }
 
 button.secondary, .button.secondary {
-    background: var(--color-bg);
+    background: white;
     color: var(--color-text);
     border: 1.5px solid var(--color-border);
 }
 
 button.secondary:hover, .button.secondary:hover {
-    background: var(--color-border);
+    background: var(--color-bg);
+    border-color: var(--color-primary);
 }
 
 /* Nur ein Symbol statt Text — quadratisch, damit mehrere Aktionen in einer
    Tabellenzeile nebeneinander Platz haben, statt in die naechste Zeile umzubrechen. */
 .icon-button {
-    padding: 6px 10px;
-    font-size: 15px;
+    padding: 7px 11px;
+    font-size: 16px;
     line-height: 1;
 }
 
 .refresh-link {
-    font-size: 13px;
+    font-size: 13.5px;
     vertical-align: middle;
     margin-left: 10px;
 }
@@ -234,42 +244,46 @@ button.secondary:hover, .button.secondary:hover {
 }
 
 .message {
-    background: #f0fdf4;
-    border-left: 4px solid var(--color-success);
+    background: #dcfce7;
+    border-left: 5px solid var(--color-success);
     color: #14532d;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    font-size: 14px;
+    padding: 13px 18px;
+    margin-bottom: 18px;
+    font-size: 14.5px;
+    font-weight: 600;
 }
 
 .error {
-    background: #fef2f2;
-    border-left: 4px solid var(--color-danger);
+    background: #fee2e2;
+    border-left: 5px solid var(--color-danger);
     color: #7f1d1d;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    font-size: 14px;
+    padding: 13px 18px;
+    margin-bottom: 18px;
+    font-size: 14.5px;
+    font-weight: 600;
 }
 
 .badge {
     background: var(--color-success);
     color: white;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 11.5px;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.03em;
 }
 
 code {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    padding: 2px 6px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    color: var(--color-primary-hover);
+    padding: 3px 8px;
     border-radius: 5px;
-    font-size: 12.5px;
+    font-size: 13.5px;
+    font-weight: 700;
     word-break: break-all;
 }
 

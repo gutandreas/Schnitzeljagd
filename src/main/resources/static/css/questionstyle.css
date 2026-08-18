@@ -1,6 +1,20 @@
 /* Design-System für die Teilnehmerseiten. Mobile-first, weil hier so gut wie
    niemand am Desktop sitzt — jede Seite wird per QR-Code auf dem Handy geöffnet. */
 
+/* Selbst gehostet statt von einem Font-CDN geladen: bleibt auch bei
+   schlechtem Schul-WLAN zuverlässig und schickt keine Daten an Dritte.
+   Nur für den Code auf dem Post-it — bewusst kein generisches "cursive",
+   das je nach Gerät kaum lesbar sein kann. Patrick Hand ist eine
+   Handschrift-Schriftart, die gezielt auf gute Lesbarkeit setzt (SIL Open
+   Font License, Patrick Wagesreiter). */
+@font-face {
+    font-family: "Patrick Hand";
+    src: url("/fonts/PatrickHand-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --color-primary: #1e40af;
     --color-primary-hover: #1e3a8a;
@@ -290,12 +304,13 @@ input[type=password]:focus {
 }
 
 .code-display p {
-    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
-    font-size: 2.4em;
-    font-weight: 700;
-    letter-spacing: 0.04em;
+    font-family: "Patrick Hand", "Segoe Print", "Bradley Hand", cursive;
+    font-size: 3.2em;
+    font-weight: normal;
+    letter-spacing: 0.06em;
     color: #78350f;
     margin: 0;
+    line-height: 1;
 }
 
 table {

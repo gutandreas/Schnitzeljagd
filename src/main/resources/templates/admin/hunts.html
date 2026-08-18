@@ -21,7 +21,7 @@
             <th>Name</th>
             <th>Posten</th>
             <th>Status</th>
-            <th style="width: 320px;">Aktionen</th>
+            <th style="width: 370px;">Aktionen</th>
         </tr>
         </thead>
         <tbody>
@@ -33,7 +33,7 @@
             <td>
                 <span class="badge" th:if="${hunt.active}">aktiv</span>
             </td>
-            <td>
+            <td class="actions">
                 <form th:action="@{'/admin/hunts/' + ${hunt.id} + '/activate'}" method="post" class="inline"
                       th:unless="${hunt.active}">
                     <button type="submit">Aktiv setzen</button>

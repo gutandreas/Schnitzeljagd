@@ -33,14 +33,14 @@
             <th>Postenreihenfolge</th>
             <th>Tipps</th>
             <th>Zeit</th>
-            <th style="width: 110px;">Aktion</th>
+            <th style="width: 140px;">Aktion</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="participant : ${participants}">
             <td th:text="${participant.groupName}">Gruppenname</td>
             <td th:text="${participant.memberNamesAsLine}">Namen</td>
-            <td><code th:text="${participant.code}">CODE</code></td>
+            <td class="code-cell"><code th:text="${participant.code}">CODE</code></td>
             <td th:text="${participant.hunt.name}">Jagd</td>
             <!-- start ist erst gesetzt, sobald die Person ihre erste Frage gesehen hat —
                  vorher steht hier "Noch nicht gestartet" statt eines Datumsfehlers. -->
@@ -55,7 +55,7 @@
             </td>
             <td th:text="${participant.hintCount} + ' (+' + ${participant.hintCount} + ' Min.)'">0</td>
             <td th:text="${participant.durationAsFormattedString}"></td>
-            <td>
+            <td class="actions">
                 <!-- Statischer Text statt th:onsubmit mit Variable: Thymeleaf verbietet
                      Text aus Variablen in th:on*-Attributen als XSS-Schutz. -->
                 <form th:action="@{/admin/participants/delete}" method="post" class="inline"

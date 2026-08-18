@@ -37,8 +37,8 @@
             <th style="width: 18%;">Titel und Ort</th>
             <th>Frage und Tipp</th>
             <th style="width: 18%;">Lösung</th>
-            <th style="width: 70px;">Code</th>
-            <th style="width: 150px;">Aktionen</th>
+            <th style="width: 100px;">Code</th>
+            <th style="width: 215px;">Aktionen</th>
         </tr>
         </thead>
         <tbody>
@@ -55,8 +55,8 @@
                       th:text="'Tipp: ' + ${question.hint}">Tipp</span>
             </td>
             <td class="solution" th:text="${question.answersAsLine}">Lösung</td>
-            <td><code th:text="${question.token}">ABC123</code></td>
-            <td>
+            <td class="code-cell"><code th:text="${question.token}">ABC123</code></td>
+            <td class="actions">
                 <a class="button icon-button" th:href="@{'/admin/questions/' + ${question.id}}"
                    title="Bearbeiten">&#9998;</a>
                 <form th:action="@{'/admin/questions/' + ${question.id} + '/move'}" method="post" class="inline">
