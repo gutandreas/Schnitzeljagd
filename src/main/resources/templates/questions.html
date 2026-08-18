@@ -71,9 +71,11 @@
    th:classappend="${result.success} ? 'result-success' : 'result-error'">Rückmeldung</p>
 
 <!-- Bewusst kein Link zu /checkout: der Abschluss läuft wie der Start nur über
-     das Scannen des Ziel-QR-Codes, nicht über eine anklickbare Adresse. -->
+     das Scannen des Ziel-QR-Codes, nicht über eine anklickbare Adresse. Wortlaut
+     bewusst identisch mit ParticipantService.checkPosition (dort: wer nach dem
+     Abschluss nochmals scannt) — eine Botschaft für denselben nächsten Schritt. -->
 <p th:if="${everythingSolved}" class="result-message result-success">
-    Geschafft! Suche den Ziel-QR-Code, um die Schnitzeljagd abzuschliessen und deine Zeit zu stoppen.
+    Geschafft! Geh zurück zum Start und scanne bei der Lehrperson den Abschlusscode, um die Zeit zu stoppen.
 </p>
 
 </div>
