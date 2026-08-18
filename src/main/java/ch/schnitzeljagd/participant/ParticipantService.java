@@ -95,13 +95,18 @@ public class ParticipantService {
      * der Hinweis auf den richtigen Posten sofort beim Scannen erscheint statt
      * erst beim Abschicken einer Antwort, und die falsche Frage gar nicht erst
      * zu sehen ist.
+     * <p>
+     * Nebeneffekt, kein reiner Lesezugriff: Stimmt der Posten, startet hier die
+     * Zeitmessung, falls sie noch nicht läuft (siehe {@link Participant#startIfNeeded()}).
+     * Das ist bewusst hier und nicht schon bei der Anmeldung — die Zeit soll erst
+     * ab der ersten echten Frage zählen, nicht schon ab dem Ausfüllen des Formulars.
      *
      * @return leer, wenn der Posten stimmt (die Frage darf gezeigt werden);
      *         sonst eine Rückmeldung mit dem Hinweis, wo der richtige Posten ist.
      *         Auch leer, wenn Code oder Posten unbekannt sind — das behandeln
      *         die Aufrufer bereits selbst.
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<GameResult> checkPosition(String code, String token) {
         Optional<Participant> participant = participantRepository.findByCode(normalizeCode(code));
         Optional<Question> scanned = huntService.findByToken(token);
@@ -114,7 +119,7 @@ public class ParticipantService {
     private Optional<GameResult> checkPosition(Participant participant, Question scanned) {
         if (participant.hasSolvedEverything()) {
             return Optional.of(new GameResult(true,
-                    "Du hast bereits alle Posten gelöst! Suche den Ziel-QR-Code, um abzuschliessen."));
+                    "Gehe zurück zum Start und scanne bei der Lehrperson den Abschlusscode, um die Zeit zu stoppen."));
         }
 
         Long currentId = participant.getCurrentQuestionId();
@@ -124,6 +129,8 @@ public class ParticipantService {
                     "Das ist nicht dein Posten! Deiner befindet sich hier: " + current.getPlace()));
         }
 
+        // Es ist wirklich der eigene, aktuelle Posten — ab jetzt zählt die Zeit.
+        participant.startIfNeeded();
         return Optional.empty();
     }
 
@@ -157,7 +164,7 @@ public class ParticipantService {
         participant.markSolved();
 
         if (nextId == null) {
-            return new GameResult(true, "Richtig — und damit hast du alle Posten gelöst! Suche den Ziel-QR-Code, um abzuschliessen.");
+            return new GameResult(true, "Richtig — und damit hast du alle Posten gelöst!");
         }
         Question next = huntService.getQuestion(nextId);
         return new GameResult(true, "Die Antwort ist richtig! Den nächsten Posten findest du hier: " + next.getPlace());

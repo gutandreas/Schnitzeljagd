@@ -73,7 +73,11 @@ public class Participant {
     @Column(name = "question_id")
     private Set<Long> hintedQuestions = new HashSet<>();
 
-    @Column(nullable = false)
+    /**
+     * Wann die Zeitmessung wirklich losging — {@code null} bis dahin. Absichtlich
+     * nicht schon bei der Anmeldung gesetzt: zwischen Namen eintippen und der
+     * ersten Frage kann beliebig viel Zeit vergehen, die nicht mitzählen soll.
+     */
     private LocalDateTime start;
 
     private LocalDateTime stop;
@@ -91,7 +95,6 @@ public class Participant {
         this.hunt = hunt;
         this.route = new ArrayList<>(route);
         this.solved = 0;
-        this.start = LocalDateTime.now();
     }
 
     /** Der Posten, der als nächstes zu lösen ist — {@code null}, wenn alle gelöst sind. */
@@ -116,6 +119,17 @@ public class Participant {
 
     public boolean isFinished() {
         return stop != null;
+    }
+
+    /**
+     * Startet die Zeitmessung — aufgerufen, sobald feststeht, dass die Person
+     * gerade ihre eigene, aktuelle Frage sieht (nicht schon bei der Anmeldung).
+     * Wirkungslos, wenn die Zeit schon läuft.
+     */
+    public void startIfNeeded() {
+        if (start == null) {
+            start = LocalDateTime.now();
+        }
     }
 
     /**
@@ -146,6 +160,9 @@ public class Participant {
      * der Client zaehlt ab diesem Wert weiter, ohne den Server erneut zu fragen.
      */
     public long getElapsedSeconds(LocalDateTime now) {
+        if (start == null) {
+            return 0;
+        }
         LocalDateTime end = isFinished() ? stop : now;
         return Duration.between(start, end).plus(getPenalty()).getSeconds();
     }

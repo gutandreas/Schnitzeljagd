@@ -14,8 +14,7 @@
 
     <h1>
         Teilnehmende
-        <a class="button secondary" th:href="@{/admin/participants}"
-           style="font-size: 14px; vertical-align: middle; margin-left: 10px;">Aktualisieren</a>
+        <a class="button secondary refresh-link" th:href="@{/admin/participants}">Aktualisieren</a>
     </h1>
     <p class="hint">
         Stand: <span th:text="${#temporals.format(now, 'HH:mm:ss')}">00:00:00</span> —
@@ -43,7 +42,9 @@
             <td th:text="${participant.memberNamesAsLine}">Namen</td>
             <td><code th:text="${participant.code}">CODE</code></td>
             <td th:text="${participant.hunt.name}">Jagd</td>
-            <td th:text="${#temporals.format(participant.start, 'dd.MM.yyyy HH:mm')}">Start</td>
+            <!-- start ist erst gesetzt, sobald die Person ihre erste Frage gesehen hat —
+                 vorher steht hier "Noch nicht gestartet" statt eines Datumsfehlers. -->
+            <td th:text="${participant.start != null} ? ${#temporals.format(participant.start, 'dd.MM.yyyy HH:mm')} : 'Noch nicht gestartet'">Start</td>
             <td th:text="${participant.solved} + ' / ' + ${participant.total}">0 / 10</td>
             <!-- Der aktuelle Posten (nächster, den die Person lösen muss) ist hervorgehoben. -->
             <td>

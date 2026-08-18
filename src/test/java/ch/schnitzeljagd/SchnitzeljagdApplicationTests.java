@@ -16,6 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // Das Profil "test" ergaenzt die Haupt-Properties (H2 im Arbeitsspeicher).
@@ -131,6 +132,28 @@ class SchnitzeljagdApplicationTests {
 
 		assertTrue(participantService.finish(participant.getCode()).success());
 		assertEquals(1, participantService.getRanking().size());
+	}
+
+	/**
+	 * Gemeldeter Bug: die Zeitmessung lief bisher schon ab der Anmeldung, obwohl
+	 * zwischen Namen eintippen und der ersten Frage beliebig viel Zeit vergehen
+	 * kann (Code notieren, zum Startposten laufen). Sie darf erst starten, wenn
+	 * die Person ihre eigene erste Frage tatsächlich sieht.
+	 */
+	@Test
+	void zeitmessungStartetErstBeimAnzeigenDerErstenFrageNichtBeiDerAnmeldung() {
+		Hunt hunt = huntService.createHunt("Startzeit-Jagd");
+		huntService.addQuestion(hunt.getId(), "Einstieg", "Zimmer 1", "Frage?", null, "antwort");
+		huntService.activateHunt(hunt.getId());
+
+		Participant participant = participantService.register("Startzeit-Gruppe", List.of("Anna"));
+		assertNull(participant.getStart(), "Direkt nach der Anmeldung darf die Uhr noch nicht laufen.");
+
+		String token = huntService.getQuestion(participant.getCurrentQuestionId()).getToken();
+		participantService.checkPosition(participant.getCode(), token);
+
+		Participant nachDemAnzeigen = participantService.findByCode(participant.getCode()).orElseThrow();
+		assertNotNull(nachDemAnzeigen.getStart(), "Beim Anzeigen der eigenen ersten Frage muss die Uhr starten.");
 	}
 
 	@Test

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -16,10 +17,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class ParticipantTest {
 
+    /** Die Zeitmessung darf nicht schon bei der Anmeldung laufen, siehe startIfNeeded(). */
+    @Test
+    void zeitmessungLaeuftErstNachStartIfNeeded() {
+        Hunt hunt = new Hunt("Testjagd");
+        Participant participant = new Participant("ABCD", "Die Testgruppe", List.of("Anna"), hunt, List.of(1L));
+
+        assertNull(participant.getStart(), "Direkt nach der Anmeldung darf die Zeit noch nicht laufen.");
+        assertEquals(0, participant.getElapsedSeconds(LocalDateTime.now().plusHours(1)),
+                "Ohne Start gibt es auch keine verstrichene Zeit.");
+
+        participant.startIfNeeded();
+        LocalDateTime start = participant.getStart();
+        assertEquals(60, participant.getElapsedSeconds(start.plusSeconds(60)));
+
+        // Ein zweiter Aufruf (z.B. Posten 1 nochmals angeschaut) darf die Uhr nicht zurücksetzen.
+        participant.startIfNeeded();
+        assertEquals(start, participant.getStart());
+    }
+
     @Test
     void elapsedSecondsBeruecksichtigtTippzuschlagUndFriertNachAbschlussEin() {
         Hunt hunt = new Hunt("Testjagd");
         Participant participant = new Participant("ABCD", "Die Testgruppe", List.of("Anna", "Beat"), hunt, List.of(1L, 2L));
+        participant.startIfNeeded();
         LocalDateTime start = participant.getStart();
 
         assertEquals(125, participant.getElapsedSeconds(start.plusSeconds(125)));

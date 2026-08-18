@@ -84,7 +84,7 @@ class WebSmokeTest {
         String letzterPosten = mockMvc.perform(get("/q/" + zweiterPosten.getToken())
                         .cookie(new Cookie("sjcode", participant.getCode())))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Ziel-QR-Code")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Abschlusscode")))
                 .andReturn().getResponse().getContentAsString();
         org.junit.jupiter.api.Assertions.assertFalse(letzterPosten.contains("href=\"/checkout\""),
                 "Die Postenseite darf /checkout nach dem letzten Posten nicht verlinken.");
@@ -167,8 +167,7 @@ class WebSmokeTest {
 
         mockMvc.perform(get("/q/" + question.getToken()).cookie(new Cookie("sjcode", participant.getCode())))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("bereits alle Posten gelöst")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Ziel-QR-Code")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Abschlusscode")));
     }
 
     /** Ohne bekannten Code (z.B. anderer Browser) lässt sich nicht prüfen, wer scannt — die Frage wird trotzdem gezeigt. */
