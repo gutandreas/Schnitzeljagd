@@ -1,40 +1,17 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
+/* Ergänzt questionstyle.css (Basis-Tabellenstil, Farb-Tokens) um Akzente,
+   die nur auf der Rangliste Sinn ergeben. */
+
+td:first-child {
+    font-weight: 700;
+    color: var(--color-primary);
+    width: 15%;
 }
 
-th,
-td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+tr:nth-child(-n+3) td:first-child {
+    color: var(--color-warning);
 }
 
-th {
-    background-color: #5078A4;
-    font-weight: bold;
-    color: white;
-}
-
-/* Zeilenhervorhebung bei Hover */
-tr:hover {
-    background-color: #f5f5f5;
-}
-
-/* Alternierende Hintergrundfarben für Zeilen */
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* Button-Styling für Aktionen */
-td.actions button {
-    padding: 6px 12px;
-    border: none;
-    background-color: #e0e0e0;
-    color: #333;
-    cursor: pointer;
-}
-
-td.actions button:hover {
-    background-color: #ccc;
+td:last-child {
+    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+    color: var(--color-text-muted);
 }

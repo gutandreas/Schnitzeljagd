@@ -7,28 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<img src="/images/logo.png" alt="Logo">
-<h1>Abschluss der Schnitzeljagd</h1>
-<p th:if="${participant == null}">Hast du alle Posten gelöst? Gib deinen Code ein, dann wird die Zeit gestoppt.</p>
-<p th:if="${participant != null}">
-    Hast du alle Posten gelöst, <span th:text="${participant.groupName}">Gruppenname</span>?
-    Dann wird jetzt die Zeit gestoppt.
-</p>
+<div class="page">
+<div class="card">
+    <img src="/images/logo.png" alt="Logo" class="logo">
+    <h1>Abschluss der Schnitzeljagd</h1>
+    <p th:if="${participant == null}">Hast du alle Posten gelöst? Gib deinen Code ein, dann wird die Zeit gestoppt.</p>
+    <p th:if="${participant != null}">
+        Hast du alle Posten gelöst, <span th:text="${participant.groupName}">Gruppenname</span>?
+        Dann wird jetzt die Zeit gestoppt.
+    </p>
 
-<form th:action="@{/checkout}" method="post">
-    <div th:style="${participant != null} ? 'display: none;' : ''">
-        <label for="code">Code:</label>
-        <input type="text" id="code" name="code" maxlength="8" th:value="${code}"
-               th:required="${participant == null}">
-    </div>
-    <button type="submit" id="sendButton">Schnitzeljagd abschliessen</button>
-</form>
+    <form th:action="@{/checkout}" method="post">
+        <div th:style="${participant != null} ? 'display: none;' : ''">
+            <label for="code">Code:</label>
+            <input type="text" id="code" name="code" maxlength="8" th:value="${code}"
+                   th:required="${participant == null}">
+        </div>
+        <button type="submit" id="sendButton" class="btn btn-success">Schnitzeljagd abschliessen</button>
+    </form>
 
-<p th:if="${result != null}" th:text="${result.message}"
-   th:style="${result.success} ? 'color: #2e7d32;' : 'color: #b03030;'">Rückmeldung</p>
+    <p th:if="${result != null}" th:text="${result.message}" class="result-message"
+       th:classappend="${result.success} ? 'result-success' : 'result-error'">Rückmeldung</p>
 
-<p style="font-size: 18px;">
-    <a th:href="@{/ranking}">Zur Rangliste</a>
-</p>
+    <p class="links">
+        <a th:href="@{/ranking}">Zur Rangliste</a>
+    </p>
+</div>
+</div>
 </body>
 </html>

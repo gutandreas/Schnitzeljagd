@@ -8,22 +8,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<div class="page">
+<div class="card">
+
 <!-- Nach einer richtig beantworteten Frage verschwinden Frage und Formular
      zugunsten einer grossen Erfolgsmeldung — ein erfolgreich angeforderter
      Tipp loest das ausdruecklich NICHT aus (answeredCorrectly bleibt false). -->
 <h1 id="question_number" th:unless="${answeredCorrectly}">Aufgabe <span th:text="${question.title}">Titel</span></h1>
-<h1 th:if="${answeredCorrectly}" style="color: #2e7d32;">Bravo!</h1>
+<h1 th:if="${answeredCorrectly}" class="success-heading">Bravo!</h1>
 
 <!-- Startwert vom Server, danach zaehlt der Client selbst weiter (siehe
      questionScript.js). Ein neuer, korrigierter Wert kommt erst mit dem naechsten
      vollen Seitenaufbau — z.B. wenn ein Tipp den Zuschlag draufschlaegt. -->
 <p id="timer" th:if="${elapsedSeconds != null}"
-   th:data-seconds="${elapsedSeconds}" th:data-running="${timerRunning}"
-   style="font-size: 28px; font-weight: bold; font-family: 'Courier New', monospace;">00:00</p>
+   th:data-seconds="${elapsedSeconds}" th:data-running="${timerRunning}">00:00</p>
 
 <!-- Fortschritt nur vor dem Antworten zeigen; danach wuerde der Zaehler schon
      den naechsten Posten meinen und nicht mehr zur Ueberschrift passen. -->
-<p th:if="${participant != null and result == null}" style="font-size: 18px;">
+<p th:if="${participant != null and result == null}" class="progress-label">
     Posten <span th:text="${participant.solved + 1}">1</span> von <span th:text="${participant.total}">10</span>
 </p>
 
@@ -44,18 +46,17 @@
                    th:required="${participant == null}">
         </div>
 
-        <p th:if="${participant != null}" style="font-size: 18px;">
+        <p th:if="${participant != null}" class="signed-in-as">
             Angemeldet als <span th:text="${participant.groupName}">Gruppenname</span>
             (Code <span th:text="${participant.code}">CODE</span>)
-            &nbsp;<a href="#" onclick="showCodeField(); return false;" style="font-size: 16px;">nicht du?</a>
+            <a href="#" onclick="showCodeField(); return false;">nicht du?</a>
         </p>
 
-        <br>
-        <button type="submit" id="sendButton">Antwort senden</button>
+        <button type="submit" id="sendButton" class="btn btn-success">Antwort senden</button>
 
         <!-- Der Tipp-Knopf gehoert in dasselbe Formular, damit der Code mitgeschickt
              wird. formnovalidate, weil fuer einen Tipp keine Antwort noetig ist. -->
-        <button type="submit" id="hintButton" formnovalidate
+        <button type="submit" id="hintButton" formnovalidate class="btn btn-warning"
                 th:if="${hintAvailable and !hintUnlocked}"
                 th:formaction="@{'/q/' + ${question.token} + '/hint'}"
                 onclick="return confirm('Der Tipp kostet dich eine Minute. Trotzdem anzeigen?');">
@@ -66,13 +67,16 @@
     <p id="hint_label" th:if="${hintText != null}" th:text="'Tipp: ' + ${hintText}">Tipp</p>
 </div>
 
-<p th:if="${result != null}" th:text="${result.message}"
-   th:style="${result.success} ? 'color: #2e7d32;' : 'color: #b03030;'">Rückmeldung</p>
+<p th:if="${result != null}" th:text="${result.message}" class="result-message"
+   th:classappend="${result.success} ? 'result-success' : 'result-error'">Rückmeldung</p>
 
 <!-- Bewusst kein Link zu /checkout: der Abschluss läuft wie der Start nur über
      das Scannen des Ziel-QR-Codes, nicht über eine anklickbare Adresse. -->
-<p th:if="${everythingSolved}">
+<p th:if="${everythingSolved}" class="result-message result-success">
     Geschafft! Suche den Ziel-QR-Code, um die Schnitzeljagd abzuschliessen und deine Zeit zu stoppen.
 </p>
+
+</div>
+</div>
 </body>
 </html>

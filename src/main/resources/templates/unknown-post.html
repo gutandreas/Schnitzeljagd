@@ -7,10 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>Hoppla</h1>
-<p th:text="${message}">Diesen Posten gibt es nicht.</p>
-<p style="font-size: 18px;">
-    <a th:href="@{/}">Zur Startseite</a>
-</p>
+<div class="page">
+<div class="card">
+    <h1>Hoppla</h1>
+    <p th:text="${message}">Diesen Posten gibt es nicht.</p>
+    <p class="links">
+        <a th:href="@{/}">Zur Startseite</a>
+    </p>
+</div>
+</div>
 </body>
 </html>

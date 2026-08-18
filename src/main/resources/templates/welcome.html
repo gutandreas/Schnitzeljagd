@@ -7,23 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>Willkommen zur Schnitzeljagd, <span th:text="${participant.groupName}">Gruppenname</span>!</h1>
+<div class="page">
+<div class="card">
+    <h1>Willkommen zur Schnitzeljagd, <span th:text="${participant.groupName}">Gruppenname</span>!</h1>
 
-<p>Das ist dein persönlicher Code. Normalerweise brauchst du ihn nicht — dieser Browser
-    merkt ihn sich. Notiere ihn trotzdem kurz: Falls du das Handy wechselst oder der
-    QR-Scanner die Seite in einem anderen Browser öffnet, tippst du ihn einmal ein.</p>
-<br>
-<div id="postit-container">
-    <div id="postit">
-        <p id="code" th:text="${participant.code}">CODE</p>
+    <p>Das ist dein persönlicher Code. Normalerweise brauchst du ihn nicht — dieser Browser
+        merkt ihn sich. Notiere ihn trotzdem kurz: Falls du das Handy wechselst oder der
+        QR-Scanner die Seite in einem anderen Browser öffnet, tippst du ihn einmal ein.</p>
+
+    <div class="code-display">
+        <p th:text="${participant.code}">CODE</p>
     </div>
-</div>
-<br>
-<p>Um die Schnitzeljagd zu starten, klicke auf den Knopf. Damit beginnt auch die Zeitmessung.</p>
 
-<p>
-    <a th:href="@{/start}" id="startButton"
-       style="display: inline-block; text-decoration: none;">Schnitzeljagd starten</a>
-</p>
+    <p>Um die Schnitzeljagd zu starten, klicke auf den Knopf. Damit beginnt auch die Zeitmessung.</p>
+
+    <a th:href="@{/start}" id="startButton" class="btn btn-primary">Schnitzeljagd starten</a>
+</div>
+</div>
 </body>
 </html>

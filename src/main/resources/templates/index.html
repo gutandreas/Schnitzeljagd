@@ -8,56 +8,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<img src="/images/logo.png" alt="Logo">
-<h1 th:text="${title}">Schnitzeljagd</h1>
+<div class="page">
+<div class="card">
+    <img src="/images/logo.png" alt="Logo" class="logo">
+    <h1 th:text="${title}">Schnitzeljagd</h1>
 
-<p th:if="${hunt != null}" th:text="${hunt.name}">Name der Jagd</p>
+    <p th:if="${hunt != null}" class="subtitle" th:text="${hunt.name}">Name der Jagd</p>
 
-<p th:if="${error}" th:text="${error}" style="color: #b03030;">Fehlermeldung</p>
+    <p th:if="${error}" class="result-message result-error" th:text="${error}">Fehlermeldung</p>
 
-<div th:if="${hunt == null}">
-    <p>Zurzeit ist keine Schnitzeljagd freigeschaltet. Bitte wende dich an deine Lehrperson.</p>
-</div>
-
-<form th:if="${hunt != null}" th:action="@{/register}" method="post">
-    <label for="groupName">Gruppenname:</label>
-    <input type="text" id="groupName" name="groupName" required><br><br>
+    <p th:if="${hunt == null}">Zurzeit ist keine Schnitzeljagd freigeschaltet. Bitte wende dich an deine Lehrperson.</p>
 
     <!-- Nur das erste Namensfeld ist aktiv. Die übrigen sind "disabled" und
          zählen darum nicht zur Anmeldung mit, solange sie nicht über "Name
          hinzufügen" eingeblendet wurden (siehe registerScript.js). Serverseitig
          geprüft wird die 1-5-Grenze trotzdem — das Absperren hier ist nur Komfort. -->
-    <div id="memberField1">
-        <label for="member1">Name 1:</label>
-        <input type="text" id="member1" name="members" required>
-    </div>
-    <div id="memberField2" class="member-field-hidden">
-        <label for="member2">Name 2:</label>
-        <input type="text" id="member2" name="members" disabled>
-    </div>
-    <div id="memberField3" class="member-field-hidden">
-        <label for="member3">Name 3:</label>
-        <input type="text" id="member3" name="members" disabled>
-    </div>
-    <div id="memberField4" class="member-field-hidden">
-        <label for="member4">Name 4:</label>
-        <input type="text" id="member4" name="members" disabled>
-    </div>
-    <div id="memberField5" class="member-field-hidden">
-        <label for="member5">Name 5:</label>
-        <input type="text" id="member5" name="members" disabled>
-    </div>
+    <form th:if="${hunt != null}" th:action="@{/register}" method="post">
+        <label for="groupName">Gruppenname:</label>
+        <input type="text" id="groupName" name="groupName" required>
 
-    <button type="button" id="addMemberButton">Name hinzufügen</button>
-    <br><br>
+        <div id="memberField1">
+            <label for="member1">Name 1:</label>
+            <input type="text" id="member1" name="members" required>
+        </div>
+        <div id="memberField2" class="member-field-hidden">
+            <label for="member2">Name 2:</label>
+            <input type="text" id="member2" name="members" disabled>
+        </div>
+        <div id="memberField3" class="member-field-hidden">
+            <label for="member3">Name 3:</label>
+            <input type="text" id="member3" name="members" disabled>
+        </div>
+        <div id="memberField4" class="member-field-hidden">
+            <label for="member4">Name 4:</label>
+            <input type="text" id="member4" name="members" disabled>
+        </div>
+        <div id="memberField5" class="member-field-hidden">
+            <label for="member5">Name 5:</label>
+            <input type="text" id="member5" name="members" disabled>
+        </div>
 
-    <button type="submit" id="register-button">Anmelden</button>
-</form>
+        <button type="button" id="addMemberButton" class="btn btn-secondary">Name hinzufügen</button>
+        <button type="submit" id="register-button" class="btn btn-primary">Anmelden</button>
+    </form>
 
-<!-- Kein Link zum Abschluss: der ist wie der Start nur per QR-Code am Zielort
-     erreichbar, nicht als Adresse, die man sich merken oder anklicken kann. -->
-<p style="font-size: 18px;">
-    <a th:href="@{/ranking}">Rangliste</a>
-</p>
+    <!-- Kein Link zum Abschluss: der ist wie der Start nur per QR-Code am Zielort
+         erreichbar, nicht als Adresse, die man sich merken oder anklicken kann. -->
+    <p class="links">
+        <a th:href="@{/ranking}">Rangliste</a>
+    </p>
+</div>
+</div>
 </body>
 </html>

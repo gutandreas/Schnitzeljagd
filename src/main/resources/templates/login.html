@@ -7,20 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>Adminbereich</h1>
+<div class="page">
+<div class="card">
+    <h1>Adminbereich</h1>
 
-<p th:if="${param.error}" style="color: #b03030;">Benutzername oder Passwort stimmt nicht.</p>
-<p th:if="${param.logout}" style="color: #2e7d32;">Du bist abgemeldet.</p>
+    <p th:if="${param.error}" class="result-message result-error">Benutzername oder Passwort stimmt nicht.</p>
+    <p th:if="${param.logout}" class="result-message result-success">Du bist abgemeldet.</p>
 
-<form th:action="@{/login}" method="post">
-    <label for="username">Benutzername:</label>
-    <input type="text" id="username" name="username" autocomplete="username" required>
-    <br>
-    <label for="password">Passwort:</label>
-    <input type="password" id="password" name="password" autocomplete="current-password"
-           style="width: 300px;" required>
-    <br>
-    <button type="submit" id="sendButton">Anmelden</button>
-</form>
+    <form th:action="@{/login}" method="post">
+        <label for="username">Benutzername:</label>
+        <input type="text" id="username" name="username" autocomplete="username" required>
+
+        <label for="password">Passwort:</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+        <button type="submit" id="sendButton" class="btn btn-primary">Anmelden</button>
+    </form>
+</div>
+</div>
 </body>
 </html>

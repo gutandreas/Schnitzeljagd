@@ -8,31 +8,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<img src="/images/logo.png" alt="Logo">
-<h1>Rangliste</h1>
-<p th:if="${hunt != null}" th:text="${hunt.name}">Name der Jagd</p>
+<div class="page">
+<div class="card">
+    <img src="/images/logo.png" alt="Logo" class="logo">
+    <h1>Rangliste</h1>
+    <p th:if="${hunt != null}" class="subtitle" th:text="${hunt.name}">Name der Jagd</p>
 
-<p th:if="${#lists.isEmpty(ranking)}">Noch hat niemand die Schnitzeljagd abgeschlossen.</p>
+    <p th:if="${#lists.isEmpty(ranking)}">Noch hat niemand die Schnitzeljagd abgeschlossen.</p>
 
-<table th:unless="${#lists.isEmpty(ranking)}">
-    <thead>
-    <tr>
-        <th>Rang</th>
-        <th>Gruppe</th>
-        <th>Zeit</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="participant, rowStat : ${ranking}">
-        <td th:text="${rowStat.count}">1</td>
-        <td th:text="${participant.groupName}">Gruppenname</td>
-        <td th:text="${participant.durationAsFormattedString}">0:00:00</td>
-    </tr>
-    </tbody>
-</table>
+    <table th:unless="${#lists.isEmpty(ranking)}">
+        <thead>
+        <tr>
+            <th>Rang</th>
+            <th>Gruppe</th>
+            <th>Zeit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="participant, rowStat : ${ranking}">
+            <td th:text="${rowStat.count}">1</td>
+            <td th:text="${participant.groupName}">Gruppenname</td>
+            <td th:text="${participant.durationAsFormattedString}">0:00:00</td>
+        </tr>
+        </tbody>
+    </table>
 
-<p style="font-size: 18px;">
-    <a th:href="@{/}">Zur Startseite</a>
-</p>
+    <p class="links">
+        <a th:href="@{/}">Zur Startseite</a>
+    </p>
+</div>
+</div>
 </body>
 </html>
